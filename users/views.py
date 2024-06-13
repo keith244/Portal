@@ -12,7 +12,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 User = get_user_model()
-
+#Create your views here
 def iregister(request):
     activation_link_sent = request.session.pop('activation_link_sent', False)
     if request.method == "POST":

@@ -30,16 +30,15 @@ class WorkExperience(models.Model):
             verbose_name_plural = 'Work Experience'
 
 class Education(models.Model):
-      user         = models.ForeignKey(User, on_delete=models.CASCADE)
+      user              = models.ForeignKey(User, on_delete=models.CASCADE)
       education         = models.CharField(max_length=255)
       course            = models.CharField(max_length=255)
       institution       = models.CharField(max_length=255)
       grad_year         = models.DateField(blank=True, null=True)
-      addn_courses      = models.CharField(max_length=255)
+      addn_courses      = models.CharField(max_length=255, blank=True, null=True)
 
       def __str__(self) :
             return f'{self.user.email}--{self.course}'
       
       class Meta:
             verbose_name_plural = 'Education'
-
