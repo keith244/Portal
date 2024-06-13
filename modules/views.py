@@ -81,4 +81,4 @@ def personal_details(request):
     return render(request, 'modules/personaldetails.html')
 # Create your views here.
 def add_Job(request):
-    return render(request, 'modules/addjob.html')
+    return render(request, 'staff/addjob.html')
