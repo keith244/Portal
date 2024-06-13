@@ -1,0 +1,38 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+  <form method="post" id="work" action="{% url 'work' %}">
+    {% csrf_token %}
+  <div class="container">
+    <h2 class="mt-5 mb-4">Work Experience</h2>
+    <form id="workExperienceForm">
+      <div id="experienceFields">
+        <div class="mb-3">
+          <label for="companyName" class="form-label">Company Name:</label>
+          <input type="text" class="form-control" name="company" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="position" class="form-label">Position:</label>
+          <input type="text" class="form-control" name="position" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="startDate" class="form-label">Start Date:</label>
+          <input type="date" class="form-control" name="start_date" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="endDate" class="form-label">End Date:</label>
+          <input type="date" class="form-control" name="end_date">
+        </div>
+
+        <div class="mb-5">
+          <label for="responsibilities" class="form-label">Responsibilities:</label>
+          <textarea class="form-control" name="responsibility" rows="4" required></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success mb-3 mt-1">Submit</button>
+    </form>
+  </div>
+{% endblock %}

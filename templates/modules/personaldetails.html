@@ -1,0 +1,287 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+     <meta-charset-UTF-8">
+     <meta-charset-UTF-8 http-equiv="Content-Type" content="text/html;">
+     <title>ICT AUTHORITY | RECRUITMENT PORTAL</title>
+     <style>
+         .form-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+          }
+
+         .form-container input,
+         .form-container select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box; /* Include padding in width calculation */
+         }
+
+         .button-group {
+            margin-top: 20px;
+         }
+
+          .button-group submit {
+            margin-right: 10px;
+         }
+            .special_class{
+                color: #ab0909;
+            }
+            /*tittle*/
+            h3, h4 {
+                color: #1b2c19;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            
+         .hidden {
+         display: none;
+          }
+         /*start radio buttons*/
+         .radio {
+                display: flex;
+                align-items: center;
+                margin-top: 5px;
+            }
+            .radio label {
+                margin-right: 20px;
+                font-weight: normal;
+            }
+            /*end*/
+            
+        </style>
+   </head>
+   <body>
+     <form method="post" id="detailsForm" action="{% url 'personal-details' %}">
+     {% csrf_token %}
+     <h4>Step 1 of 7</h4>
+     <h3>Personal Details</h3>
+     
+       
+     <div class="form-container">
+        <div class="form-group">
+            <label for="first_name">First Name:<span class="special_class">*</span></label>
+            <input type="text" class="form-control" id="first_name" name="first_name" pattern="^\S.*$" value="{{ user.personal.first_name }}" required/>
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name:<span class="special_class">*</span></label>
+            <input type="text" class="form-control" id="last_name" name="last_name" pattern="^\S.*$" value="{{ user.personal.last_name }}" required/>
+        </div>
+        <div class="form-group">
+            <label for="other_name">Other Name:</label>
+            <input type="text" class="form-control" id="other_name" name="other_name" pattern="^\S.*$" value="{{ user.personal.other_name }}" required/>
+        </div>
+        <div class="form-group">
+            <label for="birth_date">Date of Birth:<span class="special_class">*</span></label>
+            <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+        </div>
+        <div class="form-group">
+            <label for="id_number">ID Number:<span class="special_class">*</span></label>
+            <input type="text" class="form-control" id="id_number" name="id_number" maxlength="200" placeholder="National ID/Passport Number" required>
+        </div>
+        <div class="form-group">
+            <label for="id_kra_pin">KRA PIN:<span class="special_class">*</span></label>
+            <input type="text" class="form-control" id="id_kra_pin" name="id_kra_pin" maxlength="200" placeholder="KRA PIN" required>
+        </div>
+        <div class="form-group">
+            <label for="id_gender">Gender:<span class="special_class">*</span></label>
+            <select id="id_gender" class="form-control">
+                <option disabled selected value="{{ user.personal.gender }}"></option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_Nationality">Nationality:</label>
+            <input type="text" class="form-control" id="id_Nationality" name="Nationality" maxlength="300" placeholder="Nationality">
+        </div>
+        <div class="form-group">
+            <label for="id_town">City/Town:</label>
+            <input type="text" class="form-control" id="id_town" name="town" maxlength="50" placeholder="City/Town" required>
+        </div>
+        <div class="form-group">
+            <label for="id_mobile_number">Mobile Number:</label>
+            <input type="text" class="form-control" id="id_mobile_number" name="number" maxlength="300" pattern="^(07|01)\d{8}$" max="10" placeholder="Mobile Number i.e 0712345678">
+        </div>
+        <div class="form-group">
+            <label for="id_marital_Status">Marital Status:</label>
+            <select id="id_marital_Status" class="form-control">
+                <option disabled selected value="{{ user.personal.marital_status }}"></option>
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
+                <option value="Divorced">Divorced</option>
+                <option value="Widowed">Widowed</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="nssf_number">NSSF Number:</label>
+            <input type="text" class="form-control" id="nssf_number" name="nssf_number" value="{{ user.personal.nssf_number }}" required/>
+        </div>
+        <div class="form-group">
+            <label for="county">Home County:</label>
+            <input list="counties" class="form-control" name="county" id="county" placeholder="Type in your home county">
+            <datalist id="counties">
+                <!-- Options here -->
+                <option value="Nairobi">
+    
+                <option value="Nyeri">
+
+                <option value="Kirinyaga">
+
+                <option value="Kiambu">
+                  
+                <option value="Muranga">
+
+                <option value="Nyandarua">
+
+                <option value="Mombasa">
+
+                <option value="Kwale">
+
+                <option value="Kilifi">
+
+                <option value="Tana River">
+
+                <option value="Lamu">
+
+                <option value="Busia">
+
+                <option value="Bungoma">
+
+                <option value="Vihiga">
+
+                <option value="Kakamega">
+
+                <option value="Makueni">
+
+                <option value="Machakos">
+
+                <option value="Kitui">
+
+                <option value="Embu">
+
+                <option value="Tharaka Nithi">
+
+                <option value="Meru">
+
+                <option value="Isiolo">
+
+                <option value="Marsabit">
+
+                <option value="Kisii">
+
+                <option value="Nyamira">
+
+                <option value="Migori">
+
+                <option value="Homa Bay">
+
+                <option value="Siaya">
+
+                <option value="Kisumu">
+
+            <option value="Kericho">
+
+            <option value="Taita Taveta">
+
+            <option value="Garissa">
+
+            <option value="Wajir">
+
+            <option value="Mandera">
+
+            <option value="Turkana">
+
+            <option value="West Pokot">
+
+                <option value="Trans Nzoia">
+
+                <option value="Kajiado">
+
+                <option value="Narok">
+
+                <option value="Nakuru">
+
+                <option value="Baringo">
+
+                <option value="Laikipia">
+
+                <option value="Samburu">
+
+                <option value="Uasin Gishu">
+
+                <option value="Elgeyo Marakwet">
+
+                <option value="Nandi">
+
+                <option value="Bomet">  
+            </datalist>
+        </div>
+        <div class="form-group">
+            <label>Do you have a disability?</label>
+            <br>
+            <span>
+            <label for="yes">Yes</label>
+            <input type="radio" name="disability" id="yes" onclick="showDescription()">
+            </span>
+            <label for="no">No</label>
+            <input type="radio" name="disability" id="no" onclick="hideDescription()">
+            <div id="descriptionField" class="hidden">
+                <label for="id_description">Please describe your disability:</label><br>
+                <input type="text" class="form-control" id="id_description" name="description">
+            </div>
+        </div>
+     </div>
+     
+     <div class="button-group">
+        <button type="submit"   class="btn btn-primary">Save</button>
+        <button type="submit" id="proceedBtn" class="btn btn-success">Proceed</button>
+     </div>
+     </form>
+     
+     <script>
+        document.getElementById('proceedBtn').addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      // Submit the form
+       document.getElementById('detailsForm').submit();
+    
+      // Redirect to the view page
+      window.location.href = "#";
+     });
+
+        function showDescription() {
+            document.getElementById('descriptionField').classList.remove('hidden');
+        }
+            
+        function hideDescription() {
+            document.getElementById('descriptionField').classList.add('hidden');
+        }
+        document.getElementById('detailsForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    // Get form values
+                    const first_name = document.getElementById('first_name').value;
+                    const last_name = document.getElementById('last_name').value;
+                    const other_name = document.getElementById('other_name').value;
+                    const birth_date = document.getElementById('birth_date').value;
+                    const id_number = document.getElementById('id_number').value;
+                    const id_kra_pin = document.getElementById('id_kra_pin').value;
+                    const id_gender = document.getElementById('id_gender').value;
+                    const id_Nationality = document.getElementById('id_Nationality').value;
+                    const id_town = document.getElementById('id_town').value;
+                    const id_mobile_number = document.getElementById('id_mobile_number').value;
+                    const maritalStatus = document.getElementById('maritalStatus').value;
+                    const county = document.getElementById('county').value;
+                    const disability = document.querySelector('input[name="disability"]:checked').value;
+                    const description = document.getElementById('id_description').value;
+                    // Do something with the form data
+                });
+     </script>
+   </body>
+</html>
+
+{% endblock %}

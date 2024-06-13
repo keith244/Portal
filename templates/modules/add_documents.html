@@ -1,0 +1,90 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Documents</title>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Additional CSS -->
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Remove scrollbars if any */
+    }
+    .container-fluid {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    }
+    .card {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 2rem;
+        border: none; /* Remove any border */
+        box-shadow: none; /* Remove any shadow */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .form-control {
+        width: 100%;
+    }
+</style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="card p-5">
+        <h3 class="text-center"><b>Statutory Documents</b></h3>
+        <p class="text-center">Upload scanned pdf copies of <b>CERTIFIED ORIGINAL DOCUMENTS</b> as outlined below</p>
+        <p>
+            + Cover Letter<br>
+            + National ID (Both sides)<br>
+            + Curriculum Vitae<br>
+            + Good Conduct.<br>
+        </p>
+        
+        <form method="post" id="documents" action="{% url 'documents' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="mb-3">
+                <label for="cover_letter" class="form-label">1. Add Cover Letter:</label>
+                <input type="file" class="form-control" id="cover_letter" name="cover_letter">
+            </div>
+            <div class="mb-3">
+                <label for="national_id" class="form-label">2. National ID:</label>
+                <input type="file" class="form-control" id="national_id" name="national_id">
+            </div>
+            <div class="mb-3">
+                <label for="curriculum_vitae" class="form-label">3. Curriculum Vitae:</label>
+                <input type="file" class="form-control" id="curriculum_vitae" name="curriculum_vitae">
+            </div>
+            <div class="mb-3">
+                <label for="good_conduct_certificate" class="form-label">4. Good Conduct Certificate:</label>
+                <input type="file" class="form-control" id="good_conduct_certificate" name="good_conduct_certificate">
+            </div>
+            <p class="text-muted text-center">--only pdfs allowed--</p>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success btn-submit-documents">SUBMIT ALL DOCUMENTS</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock %}

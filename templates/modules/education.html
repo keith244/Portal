@@ -1,0 +1,114 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Submit your education level</h5>
+
+      <!-- General Form Elements -->
+      <form>
+        {% csrf_token %}
+        <div class="row mb-3">
+          <label for="inputText" class="col-sm-2 col-form-label">Education</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" name="education_level">
+          </div>
+        </div>
+        <div class="row mb-3">
+            <label for="inputText" class="col-sm-2 col-form-label">Course Pursued</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="course">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="institution">Which institution did you study in:</label>
+            <input list="institutions" placeholder="Type in your institution" name="institution" id="institution" class="form-control">
+            <datalist id="institutions">
+                <option value="Adventist University of Africa">
+                <option value="Africa International University">
+                <option value="Africa Nazarene University">
+                <option value="Amref International University">
+                <option value="Chuka University">
+                <option value="Cooperative University of Kenya">
+                <option value="Daystar University">
+                <option value="Dedan Kimathi University of Technology">
+                <option value="Egerton University">
+                <option value="Garissa University">
+                <option value="Great Lakes University of Kisumu">
+                <option value="Gretsa University">
+                <option value="International Leadership University, Kenya">
+                <option value="Islamic University of Kenya">
+                <option value="Jaramogi Oginga Odinga University of Science and Technology">
+                <option value="Jomo Kenyatta University of Agriculture and Technology">
+                <option value="Kabarak University">
+                <option value="KAG East University">
+                <option value="Karatina University">
+                <option value="KCA University">
+                <option value="Kenya Highlands University">
+                <option value="Kenya Methodist University">
+                <option value="Kibabii University">
+                <option value="Kenyatta University">
+                <option value="Kirinyaga University">
+                <option value="Kiriri Women's University of Science and Technology">
+                <option value="Kisii University">
+                <option value="Laikipia University">
+                <option value="Lukenya University">
+                <option value="Maasai Mara University">
+                <option value="Machakos University">
+                <option value="Management University of Africa">
+                <option value="Maseno University">
+                <option value="Masinde Muliro University of Science and Technology">
+                <option value="Meru University of Science and Technology">
+                <option value="Moi University">
+                <option value="Mount Kenya University">
+                <option value="Multimedia University of Kenya">
+                <option value="Murang'a University of Technology">
+                <option value="Pan Africa Christian University">
+                <option value="Pioneer International University">
+                <option value="Pwani University">
+                <option value="Riara University">
+                <option value="Rongo University">
+                <option value="Scott Christian University">
+                <option value="South Eastern Kenya University">
+                <option value="St. Paul's University">
+                <option value="Strathmore University">
+                <option value="Taita Taveta University">
+                <option value="Technical University of Kenya">
+                <option value="Technical University of Mombasa">
+                <option value="The Catholic University of Eastern Africa">
+                <option value="The Co-operative University of Kenya">
+                <option value="The East African University">
+                <option value="The Presbyterian University of East Africa">
+                <option value="Umma University">
+                <option value="United States International University Africa">
+                <option value="University of Eastern Africa, Baraton">
+                <option value="University of Eldoret">
+                <option value="University of Embu">
+                <option value="University of Kabianga">
+                <option value="Uzima University">
+                <option value="Zetech University">
+            </datalist>
+        </div>
+        <div class="row mb-3">
+          <label for="inputDate" class="col-sm-2 col-form-label">Year of graduation</label>
+          <div class="col-sm-10">
+            <input type="date" class="form-control" name="grad_year">
+          </div>
+        </div>
+        <div class="row mb-3">
+            <label for="inputText" class="col-sm-2 col-form-label">Additional courses</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="add_courses">
+            </div>
+        </div>
+        <div class="row mb-3">
+          <label class="col-sm-2 col-form-label">Submit Button</label>
+          <div class="col-sm-10">
+            <button type="submit" class="btn btn-success">Submit Form</button>
+          </div>
+        </div>
+
+      </form><!-- End General Form Elements -->
+
+    </div>
+  </div>
+{% endblock %}

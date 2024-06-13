@@ -1,0 +1,75 @@
+ <style>
+    .message-dialog {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      padding: 20px;
+      max-width: auto;
+      text-align: center;
+    }
+    
+    .notification {
+      background-color: #f8f8f8;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .notification.success {
+      background-color: #dff0d8;
+      border-color: #d6e9c6;
+    }
+    
+    .notification.warning {
+      background-color: #fcf8e3;
+      border-color: #faebcc;
+    }
+    
+    .notification.error {
+      background-color: #f2dede;
+      border-color: #ebccd1;
+    }
+    
+    .notification:before {
+      font-family: "Arial", sans-serif;
+      font-weight: bold;
+      font-size: 18px;
+      margin-right: 8px;
+    }
+    
+    .notification.success:before {
+      content: '\2713';
+      color: #3c763d;
+    }
+    
+    .notification.warning:before {
+      content: '\26A0';
+      color: #8a6d3b;
+    }
+    
+    .notification.error:before {
+      content: '\2717';
+      color: #a94442;
+    }
+
+    .card-body{
+      background-color: #fff !important;
+      padding: 20px;
+      margin-top: 30px;
+    }
+</style>
+{% if messages %}
+<div class="message-dialog" id="msg">
+  {% for message in messages %}
+    <div class="notification {{ message.tags }}">
+      <span class="icon"></span>
+      {{ message }}
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
