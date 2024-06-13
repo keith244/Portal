@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import DocumentForm 
-from .models import WorkExperience
+from .models import WorkExperience, Education
 from django.contrib.auth.decorators import login_required
 from django.utils.dateparse import parse_date
 
@@ -19,7 +19,7 @@ def add_documents(request):
             # You can save the document or perform any necessary processing here
 
             messages.success(request, 'Document uploaded successfully.')
-            return redirect('success_view_name')  # Replace with your success URL or view name
+            return redirect('work')  # Replace with your success URL or view name
         else:
             messages.error(request, 'Please upload a document.')
     else:
@@ -53,13 +53,26 @@ def work_experience(request):
 
 def education(request):
     if request.method == 'POST':
-        education    = request.POST.get('education_level')  
+        education    = request.POST.get('education')  
         course       = request.POST.get('course')  
         institution  = request.POST.get('institution')  
         grad_year    = request.POST.get('grad_year')  
         addn_courses = request.POST.get('add_courses')  
 
         p_grad_year  = parse_date(grad_year)
+
+        Education.objects.create(
+            user = request.user,
+            education    =   education, 
+            course       =   course,
+            institution  =   institution,  
+            grad_year  =     p_grad_year, 
+            addn_courses =   addn_courses 
+        )
+        messages.success(request, 'Education details saved successfully!!')
+        return redirect('work')
+    else:
+        messages.error(request,'Unable to save documents. Please try again.')
     return render(request, 'modules/education.html')
 def profile_user(request):
     return render(request, 'modules/profile.html')
@@ -67,3 +80,5 @@ def profile_user(request):
 def personal_details(request):
     return render(request, 'modules/personaldetails.html')
 # Create your views here.
+def add_Job(request):
+    return render(request, 'modules/addjob.html')

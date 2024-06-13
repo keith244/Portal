@@ -1,16 +1,6 @@
 {% extends 'layout/base.html' %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html> 
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Documents</title>
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
 <!-- Additional CSS -->
 <style>
     body, html {
@@ -43,6 +33,10 @@
 </style>
 </head>
 <body>
+    <div class="text-center">
+        <h4>Step 4 of 4</h4>
+        <h3>Personal Details</h3>
+        </div>
 <div class="container-fluid">
     <div class="card p-5">
         <h3 class="text-center"><b>Statutory Documents</b></h3>
@@ -54,9 +48,8 @@
             + Good Conduct.<br>
         </p>
         
-        <form method="post" id="documents" action="{% url 'documents' %}" enctype="multipart/form-data">
+        <form method="post" id="documents" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
             <div class="mb-3">
                 <label for="cover_letter" class="form-label">1. Add Cover Letter:</label>
                 <input type="file" class="form-control" id="cover_letter" name="cover_letter">
@@ -85,6 +78,4 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
 {% endblock %}
