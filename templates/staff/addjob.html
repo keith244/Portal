@@ -1,36 +1,35 @@
 {% extends 'layout/base.html' %}
 {% block content %}
-
 <div class="col-xl-6">
     <div class="card p-4">
-      <form method="post" class="php-email-form">
+      <form method="post">
         {% csrf_token %}
-        <div class="row gy-4">
-
-          <div class="col-md-6">
-            <input type="text" name="adder" class="form-control" placeholder="Who is adding this job" required>
-          </div>
-
+        <div class="row gy-4">          
           <div class="col-md-6 ">
             <input type="text" class="form-control" name="title" placeholder="Job title" required>
-          </div>
-
-          <div class="col-md-12">
-            <input type="text" class="form-control" name="subject" placeholder="Subject" required>
-          </div>
-
-          <div class="col-md-12">
-            <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-          </div>
-
+            </div>
+            
+            <!-- <div class="col-md-12">
+              <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+              </div> -->
+              <div class="col-md-12">
+                <textarea class="form-control" name="responsibilities" rows="6" placeholder="Responsibilities" required></textarea>
+                </div>
+                
+                <div class="col-md-12">
+                  <textarea class="form-control" name="requirements" rows="6" placeholder="Requirements" required></textarea>
+                  </div>
+                  
+                <div class="col-md-6">
+                  <input type="text" name="adder" class="form-control" placeholder="Who is adding this job" required>
+                </div>
           <div class="col-md-12 text-center">
-            <button class="btn btn-success" type="submit">Send Message</button>
+            <button class="btn btn-success" type="submit">Post Job</button>
           </div>
 
         </div>
       </form>
     </div>
-
   </div>
 
 {% endblock %}

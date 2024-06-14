@@ -1,14 +1,13 @@
 from django.shortcuts import render
 from django.shortcuts import render,redirect
-from django.contrib.auth.models import User
+#from users.models import User
 from django.contrib import messages
-from .forms import DocumentForm 
-from .models import WorkExperience, Education
+from .forms import DocumentForm  #,JobForm
+from .models import WorkExperience, Education,Jobs
 from django.contrib.auth.decorators import login_required
 from django.utils.dateparse import parse_date
 
 # Create your views here.
-
 def add_documents(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -51,6 +50,29 @@ def work_experience(request):
         return redirect('work')
     return render(request, 'modules/workexperience.html')
 
+@login_required(login_url='users-login')
+def add_Job(request):
+    if request.method == 'POST':
+        title              = request.POST.get('title')
+        responsibilities   = request.POST.get('responsibilities')            
+        requirements       = request.POST.get('requirements')   
+        adder              = request.POST.get('adder')
+
+        Jobs.objects.create(
+            user = request.user,
+            title             = title,
+            responsibilities  = responsibilities,
+            requirements      = requirements,
+            adder             = adder
+        )
+        messages.success(request, 'Job posted successfully') 
+        return redirect('add_job')
+    # else:
+    #     messages.error(request,'Unable to add job. Please try again.')
+    return render(request, 'staff/addjob.html')
+
+
+
 def education(request):
     if request.method == 'POST':
         education    = request.POST.get('education')  
@@ -79,6 +101,3 @@ def profile_user(request):
 
 def personal_details(request):
     return render(request, 'modules/personaldetails.html')
-# Create your views here.
-def add_Job(request):
-    return render(request, 'staff/addjob.html')

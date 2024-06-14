@@ -38,12 +38,20 @@ class Education(models.Model):
       addn_courses      = models.CharField(max_length=255, blank=True, null=True)
 
       def __str__(self) :
-            return f'{self.user.email}--{self.course}'
+            return f'{self.course}--{self.user.email}'
       
       class Meta:
             verbose_name_plural = 'Education'
 
 
 class Jobs(models.Model):
-      # user = models.ForeignKey(User, on_delete=models.CASCADE)
-      pass
+      user = models.ForeignKey(User, on_delete=models.CASCADE)
+      title             = models.CharField(max_length=255)
+      responsibilities  = models.TextField()
+      requirements      = models.TextField()
+      adder             = models.CharField(max_length=25)
+
+      def __str__(self):
+            return f'{self.title}--{self.user.username}'
+      class Meta:
+            verbose_name_plural = 'Jobs'
