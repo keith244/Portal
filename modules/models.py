@@ -12,7 +12,7 @@ class Profile(models.Model):
     linked_in = models.URLField(max_length=200 )
     
     def __str__(self):
-            return f'{self.user.username} Profile'
+            return f'{self.user.name} Profile'
 
 
 class WorkExperience(models.Model):
@@ -24,7 +24,7 @@ class WorkExperience(models.Model):
       responsibility = models.TextField()
 
       def __str__(self):
-            return f'{self.user.email}--{self.company}'
+            return f'{self.user.name}--{self.company}'
       
       class Meta:
             verbose_name_plural = 'Work Experience'
@@ -38,7 +38,7 @@ class Education(models.Model):
       addn_courses      = models.CharField(max_length=255, blank=True, null=True)
 
       def __str__(self) :
-            return f'{self.course}--{self.user.email}'
+            return f'{self.course}--{self.user.name}'
       
       class Meta:
             verbose_name_plural = 'Education'
@@ -52,6 +52,15 @@ class Jobs(models.Model):
       adder             = models.CharField(max_length=25)
 
       def __str__(self):
-            return f'{self.title}--{self.user.username}'
+            return f'{self.title}--{self.user.name}'
       class Meta:
             verbose_name_plural = 'Jobs'
+
+class Documents(models.Model):
+      user = models.ForeignKey(User, on_delete=models.CASCADE)
+      title = models.CharField(max_length=20)
+      file  = models.FileField(upload_to='documents')
+
+      def __str__(self):
+            return f'{self.title}--{self.user.name}'
+      

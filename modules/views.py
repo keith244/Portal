@@ -3,28 +3,27 @@ from django.shortcuts import render,redirect
 #from users.models import User
 from django.contrib import messages
 from .forms import DocumentForm  #,JobForm
-from .models import WorkExperience, Education,Jobs
+from .models import WorkExperience, Education,Jobs,Documents
 from django.contrib.auth.decorators import login_required
 from django.utils.dateparse import parse_date
 
 # Create your views here.
+@login_required(login_url='users-login')
 def add_documents(request):
     if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
-        if form.is_valid():
-            # Process the uploaded file here
-            # For example, save it to the model or file system
-            document = form.cleaned_data['document']
-            # You can save the document or perform any necessary processing here
+        names = request.POST.getlist('name')
+        files = request.FILES.getlist('file')
+        user = request.user
 
-            messages.success(request, 'Document uploaded successfully.')
-            return redirect('work')  # Replace with your success URL or view name
-        else:
-            messages.error(request, 'Please upload a document.')
-    else:
-        form = DocumentForm()
-
-    return render(request, 'modules/add_documents.html', {'form': form})
+        for i in range(len(names)):
+            Documents.objects.create(
+                user=user,
+                title=names[i],
+                file=files[i]
+            )
+        messages.success(request, 'Documents added successfully.')
+        return redirect('education')
+    return render(request, 'modules/add_documents.html')
 
 @login_required(login_url='users-login')
 def work_experience(request):
@@ -50,6 +49,8 @@ def work_experience(request):
         return redirect('work')
     return render(request, 'modules/workexperience.html')
 
+
+
 @login_required(login_url='users-login')
 def add_Job(request):
     if request.method == 'POST':
@@ -72,7 +73,7 @@ def add_Job(request):
     return render(request, 'staff/addjob.html')
 
 
-
+@login_required(login_url='users-login')
 def education(request):
     if request.method == 'POST':
         education    = request.POST.get('education')  
@@ -99,5 +100,7 @@ def education(request):
 def profile_user(request):
     return render(request, 'modules/profile.html')
 
+def jobs(request):
+    return render(request, 'modules/jobs.html')
 def personal_details(request):
-    return render(request, 'modules/personaldetails.html')
+    return render(request, 'modules/personal_details.html')

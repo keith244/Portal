@@ -3,3 +3,4 @@ env/*
 media/*
 config.json
 __pycache__
+documents/*

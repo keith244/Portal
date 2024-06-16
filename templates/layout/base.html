@@ -329,6 +329,12 @@
       </li>
       {% endif %}
       <li class="nav-item">
+        <a class="nav-link collapsed" href="{ url 'jobs' }">
+          <i class="bi bi-briefcase"></i>
+          <span>Jobs</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="#">
           <i class="bi bi-envelope"></i>
           <span>Contact</span>
@@ -392,6 +398,8 @@
 
   <!-- Template Main JS File -->
   <script src="{% static 'js/main.js' %}"></script>
+  {% block extrajs %}
+  {% endblock %}
 
 </body>
 
