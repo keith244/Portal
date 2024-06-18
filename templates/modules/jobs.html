@@ -7,18 +7,19 @@
     </div>
     </div>
     <h1>Jobs</h1>
-{% for job in jobs %}
-<div class="col-lg-6">
+    {% for job in jobs %}
+    <div class="col-lg-6">
   <div class="info-box card">
     <i class="bi bi-briefcase"></i>
       <h3>{{ job.title }}</h3> 
       <p>{{ job.timestamp }}</p> 
+      <p>{{job.id}}</p>
       <p>{{job.responsibilities}}</p>
       <p>{{job.requirements}}</p>
       <div class="col-md-12 text-center">
         {% if user.is_staff%}
-        <button type="submit" class="btn btn-info">Update job details</button>
-        <button type="submit" class="btn btn-outline-danger">Delete job</button>
+        <a href="{% url 'update_job' job.id %}" class="btn btn-info">Update job details</a>
+        <a href="{% url 'delete_job' job.id %}" class="btn btn-outline-danger">Delete job</a>
         {% else %}
         <button class="btn btn-success" type="submit">Apply now</button>
         {%endif%}

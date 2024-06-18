@@ -6,22 +6,22 @@
         {% csrf_token %}
         <div class="row gy-4">          
           <div class="col-md-6 ">
-            <input type="text" class="form-control" name="title" placeholder="Job title" required>
+            <input type="text" class="form-control" name="title" value="{{job.title}}" placeholder="Job title" required>
             </div>
             
             <!-- <div class="col-md-12">
               <input type="text" class="form-control" name="subject" placeholder="Subject" required>
               </div> -->
               <div class="col-md-12">
-                <textarea class="form-control" name="responsibilities" rows="6" placeholder="Responsibilities" required></textarea>
+                <textarea class="form-control" name="responsibilities" rows="6" placeholder="Responsibilities" required>{{ job.responsibilities }}</textarea>
                 </div>
                 
                 <div class="col-md-12">
-                  <textarea class="form-control" name="requirements" rows="6" placeholder="Requirements" required></textarea>
+                  <textarea class="form-control" name="requirements" rows="6" placeholder="Requirements" required>{{ job.requirements }}</textarea>
                   </div>
                   
           <div class="col-md-12 text-center">
-            <button class="btn btn-success" type="submit">Post Job</button>
+            <button class="btn btn-success" type="submit">Update Job</button>
           </div>
 
         </div>
@@ -30,3 +30,8 @@
   </div>
 
 {% endblock %}
+
+
+
+
+

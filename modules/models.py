@@ -51,7 +51,6 @@ class Jobs(models.Model):
       title             = models.CharField(max_length=255)
       responsibilities  = models.TextField()
       requirements      = models.TextField()
-      adder             = models.CharField(max_length=25)
       timestamp = models.DateTimeField(default=datetime.now)
 
       def __str__(self):
