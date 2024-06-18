@@ -147,6 +147,8 @@ def resend_activation_link(request,id):
 #@login_required()
 def index(request):
     return render(request, 'users/index.html') 
+def contact(request):
+    return render(request, 'users/contact.html')
    
 
 def forgot_password(request):

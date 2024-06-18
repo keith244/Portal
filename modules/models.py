@@ -48,3 +48,25 @@ class FAQ(models.Model):
       
       def __str__(self):
        return self.question
+ 
+class Jobs(models.Model):
+      user = models.ForeignKey(User, on_delete=models.CASCADE)
+      title             = models.CharField(max_length=255)
+      responsibilities  = models.TextField()
+      requirements      = models.TextField()
+      adder             = models.CharField(max_length=25)
+      #timestamp = models.DateTimeField(auto_now_add=True)
+
+      def __str__(self):
+            return f'{self.title}--{self.user.name}'
+      class Meta:
+            verbose_name_plural = 'Jobs'
+
+class Documents(models.Model):
+      user = models.ForeignKey(User, on_delete=models.CASCADE)
+      title = models.CharField(max_length=20)
+      file  = models.FileField(upload_to='documents')
+
+      def __str__(self):
+            return f'{self.title}--{self.user.name}'
+      

@@ -206,13 +206,13 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="{% static 'img/profile-img.jp' %}g" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{user.email}}</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+              <h6>{{user.email}}</h6>
+              <span>{{user.name}}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -303,7 +303,7 @@
           </li>
           <li>
             <a href="{% url 'work' %}">
-              <i class="bi bi-circle"></i><span>Works</span>
+              <i class="bi bi-circle"></i><span>Work Experiences</span>
             </a>
           </li>
           <li>
@@ -313,16 +313,29 @@
           </li>
         </ul>
       </li><!-- End Forms Nav -->
-
+      {% if user.is_staff %}
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{% url 'add_job' %}">
+          <i class="bi bi-plus-circle"></i>
+          <span>Add Job</span>
+        </a>
+        </li><!-- End F.A.Q Page Nav -->
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'users-faqs' %}">
           <i class="bi bi-question-circle"></i>
           <span>F.A.Q</span>
         </a>
-      </li><!-- End F.A.Q Page Nav -->
-
+      </li>
+      {% endif %}
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-contact">
+        <a class="nav-link collapsed" href="{% url 'jobs' %}">
+          <i class="bi bi-briefcase"></i>
+          <span>Jobs</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'users-contact' %}">
           <i class="bi bi-envelope"></i>
           <span>Contact</span>
         </a>
@@ -385,6 +398,8 @@
 
   <!-- Template Main JS File -->
   <script src="{% static 'js/main.js' %}"></script>
+  {% block extrajs %}
+  {% endblock %}
 
 </body>
 

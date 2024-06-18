@@ -8,4 +8,7 @@ urlpatterns=[
     path('modules/profile', views.profile_user, name="profile-user"),
     path('faqs/',views.faqs,name='modules-faqs'),
     path('modules/personal', views.personal_details, name="personal-details"),
+    path('modules/jobs',views.jobs,name='jobs' ),
+    #ADMIN ONLY 
+    path('staff/addjob', views.add_Job, name="add_job"),
 ]

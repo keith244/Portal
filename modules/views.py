@@ -3,29 +3,30 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import DocumentForm 
-from .models import WorkExperience, Education
+from .models import WorkExperience, Education, Jobs, Documents,FAQ
 from django.contrib.auth.decorators import login_required
 from django.utils.dateparse import parse_date
 
 # Create your views here.
 
+@login_required(login_url='users-login')
 def add_documents(request):
     if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
-        if form.is_valid():
-            # Process the uploaded file here
-            # For example, save it to the model or file system
-            document = form.cleaned_data['document']
-            # You can save the document or perform any necessary processing here
+        names = request.POST.getlist('name')
+        files = request.FILES.getlist('file')
+        user = request.user
 
-            messages.success(request, 'Document uploaded successfully.')
-            return redirect('success_view_name')  # Replace with your success URL or view name
-        else:
-            messages.error(request, 'Please upload a document.')
-    else:
-        form = DocumentForm()
+        for i in range(len(names)):
+            Documents.objects.create(
+                user=user,
+                title=names[i],
+                file=files[i]
+            )
+        messages.success(request, 'Documents added successfully.')
+        return redirect('education')
+    return render(request, 'modules/add_documents.html')
 
-    return render(request, 'modules/add_documents.html', {'form': form})
+@login_required(login_url='users-login')
 
 @login_required(login_url='users-login')
 def work_experience(request):
@@ -76,8 +77,32 @@ def education(request):
 def profile_user(request):
     return render(request, 'modules/profile.html')
 
+def add_Job(request):
+    if request.method == 'POST':
+        title              = request.POST.get('title')
+        responsibilities   = request.POST.get('responsibilities')            
+        requirements       = request.POST.get('requirements')   
+        adder              = request.POST.get('adder')
+
+        Jobs.objects.create(
+            user = request.user,
+            title             = title,
+            responsibilities  = responsibilities,
+            requirements      = requirements,
+            adder             = adder
+        )
+        messages.success(request, 'Job posted successfully') 
+        return redirect('add_job')
+    # else:
+    #     messages.error(request,'Unable to add job. Please try again.')
+    return render(request, 'staff/addjob.html')
+def jobs(request):
+    jobs = Jobs.objects.all().order_by('-id')
+    return render(request, 'modules/jobs.html', {'jobs':jobs})
+
 def personal_details(request):
     return render(request, 'modules/personaldetails.html')
 # Create your views here.
 def faqs(request):
-   return render(request, 'modules/faqs.html')
+    faqs = FAQ.objects.all()
+    return render(request, 'modules/faqs.html')
