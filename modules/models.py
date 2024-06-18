@@ -50,6 +50,7 @@ class Jobs(models.Model):
       responsibilities  = models.TextField()
       requirements      = models.TextField()
       adder             = models.CharField(max_length=25)
+      #timestamp = models.DateTimeField(auto_now_add=True)
 
       def __str__(self):
             return f'{self.title}--{self.user.name}'

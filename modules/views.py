@@ -51,26 +51,6 @@ def work_experience(request):
 
 
 
-@login_required(login_url='users-login')
-def add_Job(request):
-    if request.method == 'POST':
-        title              = request.POST.get('title')
-        responsibilities   = request.POST.get('responsibilities')            
-        requirements       = request.POST.get('requirements')   
-        adder              = request.POST.get('adder')
-
-        Jobs.objects.create(
-            user = request.user,
-            title             = title,
-            responsibilities  = responsibilities,
-            requirements      = requirements,
-            adder             = adder
-        )
-        messages.success(request, 'Job posted successfully') 
-        return redirect('add_job')
-    # else:
-    #     messages.error(request,'Unable to add job. Please try again.')
-    return render(request, 'staff/addjob.html')
 
 
 @login_required(login_url='users-login')
@@ -100,7 +80,28 @@ def education(request):
 def profile_user(request):
     return render(request, 'modules/profile.html')
 
+@login_required(login_url='users-login')
+def add_Job(request):
+    if request.method == 'POST':
+        title              = request.POST.get('title')
+        responsibilities   = request.POST.get('responsibilities')            
+        requirements       = request.POST.get('requirements')   
+        adder              = request.POST.get('adder')
+
+        Jobs.objects.create(
+            user = request.user,
+            title             = title,
+            responsibilities  = responsibilities,
+            requirements      = requirements,
+            adder             = adder
+        )
+        messages.success(request, 'Job posted successfully') 
+        return redirect('add_job')
+    # else:
+    #     messages.error(request,'Unable to add job. Please try again.')
+    return render(request, 'staff/addjob.html')
 def jobs(request):
-    return render(request, 'modules/jobs.html')
+    jobs = Jobs.objects.all().order_by('-id')
+    return render(request, 'modules/jobs.html', {'jobs':jobs})
 def personal_details(request):
     return render(request, 'modules/personal_details.html')
