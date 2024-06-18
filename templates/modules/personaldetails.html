@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
-     <meta-charset-UTF-8">
+     <meta-charset-UTF-8>
      <meta-charset-UTF-8 http-equiv="Content-Type" content="text/html;">
      <title>ICT AUTHORITY | RECRUITMENT PORTAL</title>
      <style>
@@ -51,17 +51,25 @@
                 margin-right: 20px;
                 font-weight: normal;
             }
-            /*end*/
+                .navButton{
+             background-color: #4CAF50; /* Green background */
+            color: white;              /* White text */
+            padding: 7px 7px;        /* Padding */
+            font-size: 12px;           /* Font size */
+            border: none;              /* No border */
+            cursor: pointer;           /* Pointer/hand icon on hover */
+            border-radius: 6px;       /* Rounded edges */
+            font-weight: bold; 
+            }
             
         </style>
-   </head>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    <body>
      <form method="post" id="detailsForm" action="{% url 'personal-details' %}">
      {% csrf_token %}
+     <div id="page1" class="page">
      <h4>Step 1 of 4</h4>
      <h3>Personal Details</h3>
-     
-       
      <div class="form-container">
         <div class="form-group">
             <label for="first_name">First Name:<span class="special_class">*</span></label>
@@ -105,7 +113,7 @@
         </div>
         <div class="form-group">
             <label for="id_mobile_number">Mobile Number:</label>
-            <input type="text" class="form-control" id="id_mobile_number" name="number" maxlength="300" pattern="^(07|01)\d{8}$" max="10" placeholder="Mobile Number i.e 0712345678">
+            <input type="text" class="form-control" id="id_mobile_number" name="number" maxlength="300" pattern="^(07|01)\d{8}$" max="10" placeholder="Mobile Number">
         </div>
         <div class="form-group">
             <label for="id_marital_Status">Marital Status:</label>
@@ -220,68 +228,70 @@
 
                 <option value="Bomet">  
             </datalist>
-        </div>
-        <div class="form-group">
-            <label>Do you have a disability?</label>
-            <br>
-            <span>
-            <label for="yes">Yes</label>
-            <input type="radio" name="disability" id="yes" onclick="showDescription()">
-            </span>
-            <label for="no">No</label>
-            <input type="radio" name="disability" id="no" onclick="hideDescription()">
-            <div id="descriptionField" class="hidden">
-                <label for="id_description">Please describe your disability:</label><br>
-                <input type="text" class="form-control" id="id_description" name="description">
+            </div>
+            <div class="form-group">
+                <label>Do you have a disability?</label>
+                <br>
+                <label for="yes">Yes</label>
+                <input type="radio" name="disability" id="yes" onclick="showDescription()">
+                <label for="no">No</label>
+                <input type="radio" name="disability" id="no" onclick="hideDescription()">
+                <div id="descriptionField" class="hidden">
+                    <label for="id_description">Please describe your disability:</label><br>
+                    <input type="text" class="form-control" id="id_description" name="description">
+                </div>
             </div>
         </div>
-     </div>
-     
-     <div class="button-group">
-        <button type="submit"   class="btn btn-primary">Save</button>
-        <button type="submit" id="proceedBtn" class="btn btn-success">Proceed</button>
-     </div>
-     </form>
-     
-     <script>
-        document.getElementById('proceedBtn').addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent the default form submission
+        
+        <div class="button-group">
+            <button type="submit"   class="btn btn-primary">Save</button>
+            <button class = "navButton" type="submit" id="proceedBtn" class="btn btn-secondary"><a href="{% url 'education' %}">Proceed</button></a>
+        </div>
+        </form>
+        
+        <script>
+            document.getElementById('proceedBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-      // Submit the form
-       document.getElementById('detailsForm').submit();
-    
-      // Redirect to the view page
-      window.location.href = "#";
-     });
+        // Submit the form
+        document.getElementById('detailsForm').submit();
+        
+        // Redirect to the view page
+        window.location.href = "#";
+        });
 
-        function showDescription() {
-            document.getElementById('descriptionField').classList.remove('hidden');
-        }
-            
-        function hideDescription() {
-            document.getElementById('descriptionField').classList.add('hidden');
-        }
-        document.getElementById('detailsForm').addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    // Get form values
-                    const first_name = document.getElementById('first_name').value;
-                    const last_name = document.getElementById('last_name').value;
-                    const other_name = document.getElementById('other_name').value;
-                    const birth_date = document.getElementById('birth_date').value;
-                    const id_number = document.getElementById('id_number').value;
-                    const id_kra_pin = document.getElementById('id_kra_pin').value;
-                    const id_gender = document.getElementById('id_gender').value;
-                    const id_Nationality = document.getElementById('id_Nationality').value;
-                    const id_town = document.getElementById('id_town').value;
-                    const id_mobile_number = document.getElementById('id_mobile_number').value;
-                    const maritalStatus = document.getElementById('maritalStatus').value;
-                    const county = document.getElementById('county').value;
-                    const disability = document.querySelector('input[name="disability"]:checked').value;
-                    const description = document.getElementById('id_description').value;
-                    // Do something with the form data
-                });
-     </script>
-   </body>
-</html>
+            function showDescription() {
+                document.getElementById('descriptionField').classList.remove('hidden');
+            }
+                
+            function hideDescription() {
+                document.getElementById('descriptionField').classList.add('hidden');
+            }
+            document.getElementById('detailsForm').addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        // Get form values
+                        const first_name = document.getElementById('first_name').value;
+                        const last_name = document.getElementById('last_name').value;
+                        const other_name = document.getElementById('other_name').value;
+                        const birth_date = document.getElementById('birth_date').value;
+                        const id_number = document.getElementById('id_number').value;
+                        const id_kra_pin = document.getElementById('id_kra_pin').value;
+                        const id_gender = document.getElementById('id_gender').value;
+                        const id_Nationality = document.getElementById('id_Nationality').value;
+                        const id_town = document.getElementById('id_town').value;
+                        const id_mobile_number = document.getElementById('id_mobile_number').value;
+                        const maritalStatus = document.getElementById('maritalStatus').value;
+                        const county = document.getElementById('county').value;
+                        const disability = document.querySelector('input[name="disability"]:checked').value;
+                        const description = document.getElementById('id_description').value;
+                        // Do something with the form data
+            document.getElementById('nextButton').addEventListener('click', function() {
+                window.location.href = "education.html";
+            });
+        </script>
+  
+        </div>
+    </body>
+    </html>
 
 {% endblock %}
