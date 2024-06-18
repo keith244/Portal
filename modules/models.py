@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model 
 
 
 User = get_user_model()
@@ -9,9 +9,9 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     bio = models.TextField(blank=True)  
-    linked_in = models.URLField(max_length=200 )
+    linked_in = models.URLField(max_length=200)
     
-    def __str__(self):
+    def __str__(self): 
             return f'{self.user.username} Profile'
 
 
@@ -34,11 +34,17 @@ class Education(models.Model):
       education         = models.CharField(max_length=255)
       course            = models.CharField(max_length=255)
       institution       = models.CharField(max_length=255)
-      grad_year         = models.DateField(blank=True, null=True)
+      grad_year         = models.DateField(blank=True, null=True) 
       addn_courses      = models.CharField(max_length=255, blank=True, null=True)
 
       def __str__(self) :
             return f'{self.user.email}--{self.course}'
       
       class Meta:
-            verbose_name_plural = 'Education'
+            verbose_name_plural = 'Education' 
+class FAQ(models.Model):
+      question = models.CharField(max_length=50)
+      answer = models.TextField()
+      
+      def __str__(self):
+       return self.question

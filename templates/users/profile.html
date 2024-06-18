@@ -1,0 +1,1389 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% load humanize %} 
+{% block title %} <title>iRecruite|Profile</title>{% endblock %} 
+{% block profile%} active {% endblock %} {% block content %}
+<div class="row mt-3">
+  <div class="progress">
+    <div
+      id="progress-bar"
+      class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+      role="progressbar"
+      style="width: 0%"
+      aria-valuenow="0"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    ></div>
+  </div>
+</div>
+
+<div class="row mt-1">
+  <form id="multiStepForm" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate method="post" action="{% url 'profile' %}">
+    {% csrf_token %}
+    <input type="hidden" name="view_step" value="{{ view_step }}"
+  />
+    <!-- Step 1 -->
+    <div class="step" data-step="1">
+      <div class="col-md-12">
+        <h2>Personal Information</h2>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="first_name">First Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="first_name"
+                name="first_name"
+                pattern="^\S.*$"
+                value="{{ user.personal.first_name }}"
+                required
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="last_name">Last Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="last_name"
+                name="last_name"
+                pattern="^\S.*$"
+                value="{{ user.personal.last_name }}"
+                required
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="other_name">Other Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="other_name"
+                name="other_name"
+                pattern="^\S.*$"
+                value="{{ user.personal.other_name }}"
+                required
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="date_of_birth">Date of Birth</label>
+              <input
+                type="date"
+                class="form-control"
+                id="date_of_birth"
+                name="date_of_birth"
+                value="{{ user.personal.date_of_birth|date:'Y-m-d' }}"
+                required
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <select
+                class="form-control js-example-basic-single"
+                id="gender"
+                required
+                name="gender"
+              >
+                <option disabled selected value="{{ user.personal.gender }}">
+                  {{ user.personal.gender }}
+                </option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="county_of_birth">County of Birth</label>
+              <select
+                class="form-control js-example-basic-single"
+                id="county_of_birth"
+                required
+                name="county_of_birth"
+              >
+                <option
+                  disabled
+                  selected
+                  value="{{ user.personal.county_of_birth }}"
+                >
+                  {{ user.personal.county_of_birth }}
+                </option>
+                <option value="county1">County 1</option>
+                <option value="county2">County 2</option>
+                <option value="county3">Couty 3</option>
+              </select>
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                value="{{ user.personal.email }}"
+                required
+              />
+              <div class="invalid-feedback">enter a valid email!</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="phone_number">Phone Number</label>
+              <input
+                type="text"
+                class="form-control"
+                id="phone_number"
+                name="phone_number"
+                pattern="^(07|01)\d{8}$"
+                value="{{ user.personal.phone_number }}"
+                required
+              />
+              <div class="invalid-feedback">enter a valid phone number!</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="id_number">Id Number</label>
+              <input
+                type="text"
+                class="form-control"
+                id="id_number"
+                name="id_number"
+                pattern="^\d{8}$"
+                value="{{ user.personal.id_number }}"
+                required
+              />
+              <div class="invalid-feedback">enter a valid id number!</div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="kra_pin">KRA Pin</label>
+              <input
+                type="text"
+                class="form-control"
+                id="kra_pin"
+                name="kra_pin"
+                value="{{ user.personal.kra_pin }}"
+                required
+              />
+              <div class="invalid-feedback">this filed is required!</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="nssf_number">Nssf Number</label>
+              <input
+                type="number"
+                class="form-control"
+                id="nssf_number"
+                name="nssf_number"
+                value="{{ user.personal.nssf_number }}"
+                required
+              />
+              <div class="invalid-feedback">this filed is required!</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="nhif_number">Nhif Number</label>
+              <input
+                type="number"
+                class="form-control"
+                id="nhif_number"
+                name="nhif_number"
+                value="{{ user.personal.nhif_number }}"
+                required
+              />
+              <div class="invalid-feedback">this filed is required!</div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="marital_status">Marital Status</label>
+                <select
+                  class="form-control js-example-basic-single"
+                  id="marital_status"
+                  required
+                  name="marital_status"
+                >
+                  <option
+                    disabled
+                    selected
+                    value="{{ user.personal.marital_status }}"
+                  >
+                    {{ user.personal.marital_status }}
+                  </option>
+                  <option value="married">Married</option>
+                  <option value="single">Single</option>
+                  <option value="divorced">Divorced</option>
+                </select>
+                <div class="invalid-feedback">this field is required!</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="disability">Disability</label>
+                <select
+                  class="form-control js-example-basic-single"
+                  id="disability"
+                  required
+                  name="disability"
+                  onchange="toggleOtherField()"
+                >
+                  <option
+                    disabled
+                    selected
+                    value="{{ user.personal.disability }}"
+                  >
+                    {% if user.personal.other_disability and user.personal.disability == "other" %}
+                    {{user.personal.other_disability }} 
+                    {% else %}
+                    {{user.personal.disability }} 
+                    {% endif %}
+                  </option>
+                  <option value="none">None</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+                <div class="invalid-feedback">this field is required!</div>
+              </div>
+            </div>
+            <div class="col-md-4" id="otherField" style="display: none">
+              <div class="form-group">
+                <label for="other_disability">Describe Disability</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="other_disability"
+                  name="other_disability"
+                  value="{{ user.personal.other_disability }}"
+                  pattern="^\S.*$"
+                />
+                <div class="invalid-feedback">this field is required!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="submit-spinner" id="spinner"></div>
+        <button
+          type="button"
+          class="btn btn-success next-step mt-3"
+          id="personal-info"
+        >
+        Save & Next
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" data-step="2">
+      <div class="col-md-12">
+        <h2>Education</h2>
+        <div class="card" style="max-height: 200px; overflow-y: auto">
+          <div class="card-body d-flex flex-column">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <div class="card-body">
+                  <h3 class="card-title"></h3>
+                  <table
+                    class="table table-striped"
+                    style="width: 100%"
+                    id="education-table"
+                  >
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Level</th>
+                        <th>Institution</th>
+                        <th>Course</th>
+                        <th>Grade</th>
+                        <th>Year</th>
+                        <th>Action</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Rows will be dynamically added here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3" id="education-">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input
+                type="hidden"
+                name="education_id"
+                value="{{ education.id }}"
+              />
+              <label for="level-">Education Level</label>
+              <select class="form-control" id="level-" required name="level">
+                <option disabled selected value="{{ education.level }}">
+                  {{ education.level }}
+                </option>
+                <option value="kcpe">
+                  Kenya Certificate of Primary Education (KCPE)
+                </option>
+                <option value="kcse">
+                  Kenya Certificate of Secondary Education (KCSE)
+                </option>
+                <option value="diploma">
+                  Higher Diploma/Diploma/Certificate
+                </option>
+                <option value="degree">Bachelor</option>
+                <option value="masters">Masters</option>
+                <option value="phd">PhD</option>
+              </select>
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="institution-">Institution</label>
+              <input
+                type="text"
+                class="form-control"
+                id="institution-"
+                name="institution"
+                pattern="^\S.*$"
+                required
+                value="{{education.institution}}"
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="course-">Course</label>
+              <input
+                type="text"
+                class="form-control"
+                id="course-"
+                name="course"
+                pattern="^\S.*$"
+                required
+                value="{{education.course}}"
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="grade-">Grade</label>
+              <input
+                type="text"
+                class="form-control"
+                id="grade-"
+                name="grade"
+                pattern="^\S.*$"
+                required
+                value="{{education.grade}}"
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="year-">Year</label>
+              <input
+                type="number"
+                class="form-control"
+                id="year-"
+                name="year"
+                pattern="^\S.*$"
+                required
+                value="{{education.year}}"
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-1 mt-4">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              id="addEducationForm"
+            >
+              &plus;
+            </button>
+          </div>
+        </div>
+        <div id="education-container">
+          {% comment %} for adding more forms {% endcomment %}
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <button type="button" class="btn btn-secondary prev-step">
+              Previous
+            </button>
+            <button type="button" class="btn btn-success next-step">
+              Save & Next
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" data-step="3">
+      <div class="col-md-12">
+        <h2>Work Experience</h2>
+        <div class="card" style="max-height: 200px; overflow-y: auto">
+          <div class="card-body d-flex flex-column">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <div class="card-body">
+                  <h3 class="card-title"></h3>
+                  <table
+                    class="table table-striped"
+                    style="width: 100%"
+                    id="work-table"
+                  >
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Institution</th>
+                        <th>Job Title</th>
+                        <th>Date From</th>
+                        <th>Date To</th>
+                        <th>Action</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Rows will be dynamically added here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="work-">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input
+                type="hidden"
+                name="work_id"
+                value="{{ work.id }}"
+              />
+              <label for="job_title">Job Title</label>
+              <input
+                type="text"
+                class="form-control"
+                id="job_title-"
+                name="job_title"
+                value="{{work.job_title}}"
+                required
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="job_institution">Institution</label>
+              <input
+                type="text"
+                class="form-control"
+                id="job_institution-"
+                name="job_institution"
+                value="{{work.institution}}"
+                required
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="date_from">Date From</label>
+              <input
+                type="date"
+                class="form-control"
+                id="date_from-"
+                name="date_from"
+                value="{{work.date_from|date:'Y-m-d'}}"
+                required
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="date_to">Date To</label>
+              <input
+                type="date"
+                class="form-control"
+                id="date_to-0"
+                name="date_to"
+                {% if work.currently_work_here %}
+                disabled
+                {% endif %}
+                value="{{work.date_to|date:'Y-m-d'}}"
+                required
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-check mt-4">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                {% if work.currently_work_here %}
+                checked
+                {% endif %}
+                id="current_work-0"
+                name="current_work"
+                onchange="handleChecked(0)"
+              />
+              <label class="form-check-label" for="current_work">
+                Currently Working Here
+              </label>
+            </div>
+          </div>
+          <div class="col-md-1 mt-4">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              id="addWorkForm"
+            >
+              &plus;
+            </button>
+          </div>
+        </div>
+        <div id="work-container">
+          {% comment %} for adding more forms {% endcomment %}
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <button type="button" class="btn btn-secondary prev-step">
+              Previous
+            </button>
+            <button type="button" class="btn btn-success next-step">
+              Save & Next
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4-->
+    <div class="step" data-step="4">
+      <div class="col-md-12">
+        <h2>Attachments</h2>
+        <div class="card" style="max-height: 200px; overflow-y: auto">
+          <div class="card-body d-flex flex-column">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <div class="card-body">
+                  <h3 class="card-title"></h3>
+                  <table
+                    class="table table-striped"
+                    style="width: 100%"
+                    id="attachment-table"
+                  >
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>File</th>
+                        <th>Action</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Rows will be dynamically added here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="attachment-">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="attachment_title">Attachment Title</label>
+              <input
+                type="text"
+                class="form-control"
+                id="attachment_title"
+                name="attachment_title"
+                required
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="attachment_file">Upload File</label>
+              <input
+                type="file"
+                class="form-control"
+                id="attachment_file"
+                name="attachment_file"
+                accept="application/pdf"
+                required
+              />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-2 mt-4">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              id="addAttachmentForm"
+            >
+              &plus;
+            </button>
+          </div>
+        </div>
+        <div id="attachment-container">
+          {% comment %} for adding more forms {% endcomment %}
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <button type="button" class="btn btn-secondary prev-step">
+              Previous
+            </button>
+            <button type="submit" class="btn btn-success">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal fade" id="confirmModal">
+  <div class="modal-dialog confirm-modal" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="card-title">Confirm Delete</h5>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this item?</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          onclick="toggleMyModal()"
+        >
+          No
+        </button>
+        <a href="#" class="btn btn-outline-danger">Yes</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
+{% block extrajs %}
+<script>
+  $(document).ready(function () {
+    var currentStep = 1;
+  
+    // Check if the hidden input field has a value
+    var viewStepValue = $("input[name='view_step']").val();
+    if (viewStepValue && viewStepValue !== '') {
+      currentStep = parseInt(viewStepValue); // Parse the value to an integer
+    }
+  
+    updateStep(); // Update the step initially
+  
+    $(".next-step").click(function () {
+      if (validateStep(currentStep)) {
+        $("#spinner").show();
+        if (currentStep === 1) {
+          savePersonalInfo();
+        } else if (currentStep === 2) {
+          submitEducations();
+        } else if (currentStep === 3) {
+          submitworks();
+        }
+        currentStep++;
+        updateStep();
+      }
+    });
+  
+    $(".prev-step").click(function () {
+      currentStep--;
+      updateStep();
+    });
+  
+    // Function to show the form when the page loads
+    showFormOnLoad(currentStep);
+  
+    function showFormOnLoad(step) {
+      $(".step").hide();
+      $(".step[data-step='" + step + "']").show();
+      updateProgressBar();
+    }
+  
+    function updateStep() {
+      $(".step").hide();
+      $(".step[data-step='" + currentStep + "']").show();
+      updateProgressBar();
+    }
+  
+    function validateStep(step) {
+      var isValid = true;
+      var fields = $(".step[data-step='" + step + "'] :input:visible"); // Only select visible fields
+  
+      fields.each(function () {
+        if (!this.checkValidity()) {
+          isValid = false;
+          $(this).addClass("is-invalid");
+        } else {
+          $(this).removeClass("is-invalid");
+        }
+      });
+  
+      return isValid;
+    }
+  
+    $("#multiStepForm").submit(function (e) {
+      if (!validateStep(currentStep)) {
+        e.preventDefault();
+      }
+    });
+
+    // Progress bar update function
+    function updateProgressBar() {
+      var progress = ((currentStep - 1) / 3) * 100; // Assuming 4 steps, adjust as needed
+      $("#progress-bar").css("width", progress + "%");
+    }
+    const savePersonalInfo = () => {
+      const personalData = {
+        model: "personalInformation",
+        first_name: $("#first_name").val(),
+        last_name: $("#last_name").val(),
+        other_name: $("#other_name").val(),
+        date_of_birth: $("#date_of_birth").val(),
+        gender: $("#gender").val(),
+        county_of_birth: $("#county_of_birth").val(),
+        email: $("#email").val(),
+        phone_number: $("#phone_number").val(),
+        id_number: $("#id_number").val(),
+        kra_pin: $("#kra_pin").val(),
+        nhif_number: $("#nhif_number").val(),
+        nssf_number: $("#nssf_number").val(),
+        marital_status: $("#marital_status").val(),
+        disability: $("#disability").val(),
+        other_disability: $("#other_disability").val(),
+      };
+
+      $.ajax({
+        url: "{% url 'profile' %}",
+        method: "POST",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        data: personalData,
+        success: function (response) {
+          if (response.redirect_url) {
+            //window.location.href = response.redirect_url;
+            $("#spinner").hide();
+          } else {
+            $("#spinner").hide();
+          }
+        },
+        error: function (error) {
+          $("#spinner").hide();
+          //window.location.href = error.redirect_url;
+        },
+      });
+    };
+    const submitEducations = () => {
+      const educations = [];
+      $('.row[id^="education-"]').each(function () {
+        const education = {
+          education_id: $(this).find('[name="education_id"]').val() || null,
+          level: $(this).find('[id^="level-"]').val(),
+          institution: $(this).find('[id^="institution-"]').val(),
+          course: $(this).find('[id^="course-"]').val(),
+          grade: $(this).find('[id^="grade-"]').val(),
+          year: $(this).find('[id^="year-"]').val(),
+        };
+        educations.push(education);
+      });
+      const data = {
+        model: "educationInformation",
+        educations: educations,
+      };
+      $.ajax({
+        url: "{% url 'profile' %}",
+        method: "POST",
+        contentType: "application/json",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        data: JSON.stringify(data),
+        success: function (response) {
+          if (response.redirect_url) {
+            // window.location.href = response.redirect_url;
+            $("#spinner").hide();
+          } else {
+            $("#spinner").hide();
+          }
+        },
+        error: function (error) {
+          $("#spinner").hide();
+          // window.location.href = error.redirect_url;
+        },
+      });
+    };
+    const submitworks = () => {
+      const works = [];
+      $('.row[id^="work-"]').each(function () {
+        const work = {
+          work_id: $(this).find('[name="work_id"]').val() || null,
+          job_title: $(this).find('[id^="job_title-"]').val(),
+          job_institution: $(this).find('[id^="job_institution-"]').val(),
+          date_from: $(this).find('[id^="date_from-"]').val(),
+          date_to: $(this).find('[id^="date_to-"]').val(),
+          current_work: $(this).find('[id^="current_work-"]').prop("checked") ? true : false,
+        };
+        works.push(work);
+      });
+
+      const data = {
+        model: "workInformation",
+        works: works,
+      };
+      $.ajax({
+        url: "{% url 'profile' %}",
+        method: "POST",
+        contentType: "application/json",
+        headers: {
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        data: JSON.stringify(data),
+        success: function (response) {
+          if (response.redirect_url) {
+            // window.location.href = response.redirect_url;
+            $("#spinner").hide();
+          } else {
+            $("#spinner").hide();
+          }
+        },
+        error: function (error) {
+          $("#spinner").hide();
+          // window.location.href = error.redirect_url;
+        },
+      });
+    };
+  });
+  const toggleMyModal = () => {
+    $("#confirmModal").modal("hide");
+  };
+</script>
+<script>
+  function toggleOtherField() {
+    var select = document.getElementById("disability");
+    var otherField = document.getElementById("otherField");
+    if (select.value === "other") {
+      otherField.style.display = "block";
+      document
+        .getElementById("other_disability")
+        .setAttribute("required", "required");
+    } else {
+      otherField.style.display = "none";
+      document.getElementById("other_disability").removeAttribute("required");
+    }
+  }
+</script>
+<script>
+  $(document).ready(function () {
+    let educationCount = 0;
+
+    // Event handler for removing the form
+    $("#education-container").on("click", ".removeEducationForm", function () {
+      var rowId = $(this).closest(".row").attr("id");
+      $("#" + rowId).remove();
+    });
+
+    // Event handler for adding a new education row
+    $("#addEducationForm").on("click", function () {
+      educationCount++;
+
+      var container = $("#education-container");
+      var html = `
+        <div class="row mt-3" id="education-${educationCount}">
+          <h4 style="text-decoration: underline;"><strong>add education</strong></h4>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="level-${educationCount}">Education Level</label>
+              <select class="form-control js-example-basic-single" id="level-${educationCount}" required name="level">
+                <option disabled selected value="">--Select Level--</option>
+                <option value="kcpe">Kenya Certificate of Primary Education (KCPE)</option>
+                <option value="kcse">Kenya Certificate of Secondary Education (KCSE)</option>
+                <option value="diploma">Higher Diploma/Diploma/Certificate</option>
+                <option value="degree">Bachelor</option>
+                <option value="masters">Masters</option>
+                <option value="phd">PhD</option>
+              </select>
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="institution-${educationCount}">Institution</label>
+              <input type="text" class="form-control" id="institution-${educationCount}" name="institution" required />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="course-${educationCount}">Course</label>
+              <input type="text" class="form-control" id="course-${educationCount}" name="course" required />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="grade-${educationCount}">Grade</label>
+              <input type="text" class="form-control" id="grade-${educationCount}" name="grade" required />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="year-${educationCount}">Year</label>
+              <input type="number" class="form-control" id="year-${educationCount}" name="year" pattern="^\S.*$" required />
+              <div class="invalid-feedback">this field is required!</div>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="form-group mt-4">
+              <button type="button" class="btn btn-sm btn-danger removeEducationForm" data-id="education-${educationCount}">&times;</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.append(html);
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    // Function to fetch education data via AJAX
+    function getEducationData() {
+      $.ajax({
+        url: "{% url 'get_educations' %}",
+        method: "GET",
+        dataType: "json",
+        success: function (response) {
+          // Clear existing table rows
+          $("#education-table tbody").empty();
+
+          // Populate table with fetched data
+          var educations = JSON.parse(response.data);
+          educations.forEach(function (education, index) {
+            var row = $("<tr>");
+            row.append("<td>" + (index + 1) + "</td>");
+
+            var fields = education.fields;
+            row.append("<td>" + fields.level + "</td>");
+            row.append("<td>" + fields.institution + "</td>");
+            row.append("<td>" + fields.course + "</td>");
+            row.append("<td>" + fields.grade + "</td>");
+            row.append("<td>" + fields.year + "</td>");
+
+            // Add action icons
+            var actionCell = $("<td>");
+            var editButton = $("<input>")
+              .addClass("btn btn-outline-primary btn-sm")
+              .attr("title", "Edit")
+              .attr("type", "button")
+              .attr("value", "edit")
+              .css("margin-right", "5px");
+
+            // Create delete button with trash icon inside
+            var deleteButton = $("<input>")
+              .addClass("btn btn-outline-danger btn-sm")
+              .attr("title", "Delete")
+              .attr("type", "button")
+              .attr("value", "delete");
+
+            // Add click handlers for edit and delete actions
+            editButton.click(function () {
+              // Handle edit action
+            });
+            deleteButton.click(function () {
+              var educationId = education.pk;
+              var deleteUrl = "{% url 'delete_education' 0 %}".replace(
+                "0",
+                educationId
+              );
+              $("#confirmModal .btn-outline-danger").attr("href", deleteUrl);
+
+              $("#confirmModal").modal("toggle");
+            });
+
+            actionCell.append(editButton, deleteButton);
+            row.append(actionCell);
+
+            $("#education-table tbody").append(row);
+          });
+        },
+        error: function (error) {
+          console.error("Error fetching education data:", error);
+        },
+      });
+    }
+
+    // Call the function to populate table on page load
+    getEducationData();
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    let workCount = 0;
+
+    // Event handler for removing the form
+    $("#work-container").on("click", ".removeWorkForm", function () {
+      var rowId = $(this).closest(".row").attr("id");
+      $("#" + rowId).remove();
+    });
+
+    // Event handler for adding a new education row
+    $("#addWorkForm").on("click", function () {
+      workCount++;
+
+      var container = $("#work-container");
+      var html = `
+      <div class="row mt-3" id="work-${workCount}">
+        <h4 style="text-decoration: underline;"><strong>add work experience</strong></h4>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="job_title">Job Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="job_title-${workCount}"
+              name="job_title"
+              required
+            />
+            <div class="invalid-feedback">this field is required!</div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="job_institution">Institution</label>
+            <input
+              type="text"
+              class="form-control"
+              id="job_institution-${workCount}"
+              name="job_institution"
+              required
+            />
+            <div class="invalid-feedback">this field is required!</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="date_from">Date From</label>
+            <input
+              type="date"
+              class="form-control"
+              id="date_from-${workCount}"
+              name="date_from"
+              required
+            />
+            <div class="invalid-feedback">this field is required!</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="date_to">Date To</label>
+            <input
+              type="date"
+              class="form-control"
+              id="date_to-${workCount}"
+              name="date_to"
+              required
+            />
+            <div class="invalid-feedback">this field is required!</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check mt-4">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="yes"
+              id="current_work-${workCount}"
+              onchange="handleChecked(${workCount})"
+              name="current_work"
+            />
+            <label class="form-check-label" for="current_work">
+              Currently Working Here
+            </label>
+          </div>
+        </div>
+          <div class="col-md-1">
+            <div class="form-group mt-4">
+              <button type="button" class="btn btn-sm btn-danger removeWorkForm" data-id="work-${workCount}">&times;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      `;
+      container.append(html);
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    let attachmentCount = 0;
+
+    // Event handler for removing the form
+    $("#attachment-container").on("click", ".removeAttachmentForm", function () {
+      var rowId = $(this).closest(".row").attr("id");
+      $("#" + rowId).remove();
+    });
+
+    // Event handler for adding a new education row
+    $("#addAttachmentForm").on("click", function () {
+      attachmentCount++;
+
+      var container = $("#attachment-container");
+      var html = `
+      <div class="row mt-3" id="attachment-${attachmentCount}">
+        <h4 style="text-decoration: underline;"><strong>add attachment</strong></h4>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="attachment_title">Attachment Title</label>
+            <input
+              type="text"
+              class="form-control"
+              id="attachment_title-${attachmentCount}"
+              name="attachment_title"
+              required
+            />
+            <div class="invalid-feedback">this field is required!</div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="attachment_file">Upload File</label>
+            <input
+              type="file"
+              class="form-control"
+              id="attachment_file-${attachmentCount}"
+              name="attachment_file"
+              accept="application/pdf"
+              required
+            />
+            <div class="invalid-feedback">this field is required!</div>
+          </div>
+        </div>        
+          <div class="col-md-1">
+            <div class="form-group mt-4">
+              <button type="button" class="btn btn-sm btn-danger removeAttachmentForm" data-id="attachment-${attachmentCount}">&times;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      `;
+      container.append(html);
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $(document).on('change', '[id^="current_work-"]', function () {
+        var workCount = $(this).attr('id').split('-')[1];
+        var dateToInput = $('#date_to-' + workCount);
+
+        if (this.checked) {
+            dateToInput.prop('required', false);
+            dateToInput.prop('disabled', true);
+        } else {
+            dateToInput.prop('required', true);
+            dateToInput.prop('disabled', false);
+        }
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    // Function to fetch education data via AJAX
+    function getWorkData() {
+      $.ajax({
+        url: "{% url 'get_works' %}",
+        method: "GET",
+        dataType: "json",
+        success: function (response) {
+          // Clear existing table rows
+          $("#work-table tbody").empty();
+
+          // Populate table with fetched data
+          var works = JSON.parse(response.data);
+          works.forEach(function (work, index) {
+            var row = $("<tr>");
+            row.append("<td>" + (index + 1) + "</td>");
+
+            var fields = work.fields;
+            row.append("<td>" + fields.institution + "</td>");
+            row.append("<td>" + fields.job_title + "</td>");
+
+            var fromDate = new Date(fields.date_from);
+            row.append("<td>" + formatDate(fromDate) + "</td>");
+    
+            if (fields.date_to) {
+              var toDate = new Date(fields.date_to);
+              row.append("<td>" + formatDate(toDate) + "</td>");
+            } else {
+              row.append("<td>Currently working here</td>");
+            }
+            // Add action icons
+            var actionCell = $("<td>");
+            var editButton = $("<input>")
+              .addClass("btn btn-outline-primary btn-sm")
+              .attr("title", "Edit")
+              .attr("type", "button")
+              .attr("value", "edit")
+              .css("margin-right", "5px");
+
+            // Create delete button with trash icon inside
+            var deleteButton = $("<input>")
+              .addClass("btn btn-outline-danger btn-sm")
+              .attr("title", "Delete")
+              .attr("type", "button")
+              .attr("value", "delete");
+
+            // Add click handlers for edit and delete actions
+            editButton.click(function () {
+              // Handle edit action
+            });
+            deleteButton.click(function () {
+              var workId = work.pk;
+              var deleteUrl = "{% url 'delete_work' 0 %}".replace(
+                "0",
+                workId
+              );
+              $("#confirmModal .btn-outline-danger").attr("href", deleteUrl);
+
+              $("#confirmModal").modal("toggle");
+            });
+
+            actionCell.append(editButton, deleteButton);
+            row.append(actionCell);
+
+            $("#work-table tbody").append(row);
+          });
+        },
+        error: function (error) {
+          console.error("Error fetching work data:", error);
+        },
+      });
+    }
+
+    // Call the function to populate table on page load
+    getWorkData();
+
+    function formatDate(date) {
+      var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      var day = String(date.getDate()).padStart(2, '0');
+      var monthIndex = date.getMonth();
+      var month = months[monthIndex];
+      var year = date.getFullYear();
+      return day + '-' + month + '-' + year;
+    }
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    // Function to fetch education data via AJAX
+    function getUploadData() {
+      $.ajax({
+        url: "{% url 'get_attachments' %}",
+        method: "GET",
+        dataType: "json",
+        success: function (response) {
+          // Clear existing table rows
+          $("#attachment-table tbody").emptyupload
+          // Populate table with fetched data
+          var uploads = response.data;
+          uploads.forEach(function (upload, index) {
+            var row = $("<tr>");
+            row.append("<td>" + (index + 1) + "</td>");
+            row.append("<td>" + upload.title + "</td>");
+            row.append("<td><a href='" + upload.file_url + "' target='_blank'>Click to View</a></td>");
+            var actionCell = $("<td>");
+            var editButton = $("<input>")
+              .addClass("btn btn-outline-primary btn-sm")
+              .attr("title", "Edit")
+              .attr("type", "button")
+              .attr("value", "edit")
+              .css("margin-right", "5px");
+
+            // Create delete button with trash icon inside
+            var deleteButton = $("<input>")
+              .addClass("btn btn-outline-danger btn-sm")
+              .attr("title", "Delete")
+              .attr("type", "button")
+              .attr("value", "delete");
+
+            // Add click handlers for edit and delete actions
+            editButton.click(function () {
+              // Handle edit action
+            });
+            deleteButton.click(function () {
+              var uploadId = upload.id;
+              var deleteUrl = "{% url 'delete_attachment' 0 %}".replace(
+                "0",
+                uploadId
+              );
+              $("#confirmModal .btn-outline-danger").attr("href", deleteUrl);
+
+              $("#confirmModal").modal("toggle");
+            });
+
+            actionCell.append(editButton, deleteButton);
+            row.append(actionCell);
+
+            $("#attachment-table tbody").append(row);
+          });
+        },
+        error: function (error) {
+          console.error("Error fetching upload data:", error);
+        },
+      });
+    }
+
+    // Call the function to populate table on page load
+    getUploadData();
+  });
+</script>
+{% endblock %}

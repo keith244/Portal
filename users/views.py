@@ -13,6 +13,14 @@ from django.core.mail import send_mail
 
 User = get_user_model()
 #Create your views here
+def contact(request):
+    return render(request, 'users/contact.html')
+
+def faqs(request):
+    return render(request, 'users/faqs.html')
+
+
+
 def iregister(request):
     activation_link_sent = request.session.pop('activation_link_sent', False)
     if request.method == "POST":
@@ -53,7 +61,7 @@ def iregister(request):
         #     return redirect('users-login')  # Assuming you have a 'login' URL pattern
     else:
         return render(request, 'users/register.html')
-    
+ 
 def ilogin(request):
     if request.method =='POST':
         email = request.POST['email']

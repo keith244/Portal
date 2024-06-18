@@ -79,3 +79,5 @@ def profile_user(request):
 def personal_details(request):
     return render(request, 'modules/personaldetails.html')
 # Create your views here.
+def faqs(request):
+   return render(request, 'modules/faqs.html')
