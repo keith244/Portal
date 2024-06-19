@@ -11,4 +11,7 @@ urlpatterns=[
     path('modules/jobs',views.jobs,name='jobs' ),
     #ADMIN ONLY 
     path('staff/addjob', views.add_Job, name="add_job"),
+    path('staff/<int:job_id>/update', views.update_job, name='update_job'), #UPDATE
+    path('staff/<int:job_id>/delete', views.delete_job, name='delete_job'), #DELETE
+
 ]

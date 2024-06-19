@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -99,6 +99,39 @@ def add_Job(request):
 def jobs(request):
     jobs = Jobs.objects.all().order_by('-id')
     return render(request, 'modules/jobs.html', {'jobs':jobs})
+
+def job_view(request,job_id):
+    job = get_object_or_404(Jobs, pk = job_id)
+    return render(request, 'staff/<int:job_id>', {'job':job})
+
+
+def update_job(request, job_id):
+    job = get_object_or_404(Jobs, pk = job_id)
+    if request.method == 'POST':
+        if request.user == job.user or request.user.is_staff:
+            job.title            = request.POST.get('title') 
+            job.responsibilities = request.POST.get('responsibilities')
+            job.requirements     = request.POST.get('requirements')
+            job.save() 
+            messages.success(request, 'Job update success!!')
+            return redirect('jobs')
+        else:
+            messages.error(request, 'Not authorised')
+    return render(request, 'staff/update_job.html', {'job':job})
+
+def delete_job(request,job_id):
+    job = get_object_or_404(Jobs,pk=job_id)
+    if request.method == 'POST':
+        job.delete()
+        messages.success(request, 'Job deleted successfully')
+        return redirect('jobs')
+    else:
+        messages.error(request, 'Not authorised')
+    return render(request, 'staff/delete_job.html',{'job':job})
+
+"""CRUD OPERATION START HERE"""
+
+
 
 def personal_details(request):
     return render(request, 'modules/personaldetails.html')

@@ -1,0 +1,16 @@
+
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<h1>Are you sure you want to delete this job?</h1>
+<p>{{ job.title }}</p>
+<form method="post" action="{% url 'delete_job' job.id %}">
+    {% csrf_token %}
+    <div class="text-center">
+        <button type="submit" class="btn btn-outline-danger">Delete</button>
+        <a href="{% url 'jobs' %}" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+</form>
+
+{% endblock %}

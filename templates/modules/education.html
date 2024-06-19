@@ -115,4 +115,20 @@
 
     </div>
   </div>
+    <!-- Template Main JS File -->
+    <script>
+      // Function to hide the message dialog after 5 seconds
+    function hideMessageDialog() {
+      var messageDialog = document.getElementById('msg');
+      if (messageDialog) {
+        messageDialog.style.display = 'none';
+      }
+  }
+  
+  // Set timeout to call the hideMessageDialog function after 5 seconds
+    setTimeout(hideMessageDialog, 5000);
+    </script>
+    <script>
+      document.getElementById('currentYear').innerText = new Date().getFullYear();
+    </script>
 {% endblock %}
