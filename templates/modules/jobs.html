@@ -21,7 +21,7 @@
         <a href="{% url 'update_job' job.id %}" class="btn btn-info">Update job details</a>
         <a href="{% url 'delete_job' job.id %}" class="btn btn-outline-danger">Delete job</a>
         {% else %}
-        <button class="btn btn-success" type="submit">Apply now</button>
+        <a href="{% url 'personal-details' %}" class="btn btn-success">Apply now</a>
         {%endif%}
       </div>
   </div>
