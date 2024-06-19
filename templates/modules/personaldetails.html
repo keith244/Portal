@@ -244,22 +244,24 @@
         </div>
         
         <div class="button-group">
-            <button type="submit"   class="btn btn-primary">Save</button>
-            <button class = "navButton" type="submit" id="proceedBtn" class="btn btn-secondary"><a href="{% url 'education' %}">Proceed</button></a>
+            <button type="submit" id="saveBtn" class="btn btn-primary">Save</button>
+            <button type="button" id="proceedBtn" class="btn btn-secondary">Proceed</button>
         </div>
         </form>
         
         <script>
+            // Function to handle the "Proceed" button click
             document.getElementById('proceedBtn').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+                event.preventDefault(); // Prevent the default form submission
+                
+                // Submit the form
+                document.getElementById('detailsForm').submit();
+                
+                // Redirect to the education page
+                window.location.href = "{% url 'education' %}";
+            });
 
-        // Submit the form
-        document.getElementById('detailsForm').submit();
-        
-        // Redirect to the view page
-        window.location.href = "#";
-        });
-
+            // Function to show/hide disability description field
             function showDescription() {
                 document.getElementById('descriptionField').classList.remove('hidden');
             }
@@ -267,47 +269,7 @@
             function hideDescription() {
                 document.getElementById('descriptionField').classList.add('hidden');
             }
-            document.getElementById('detailsForm').addEventListener('submit', function(event) {
-                        event.preventDefault();
-                        // Get form values
-                        const first_name = document.getElementById('first_name').value;
-                        const last_name = document.getElementById('last_name').value;
-                        const other_name = document.getElementById('other_name').value;
-                        const birth_date = document.getElementById('birth_date').value;
-                        const id_number = document.getElementById('id_number').value;
-                        const id_kra_pin = document.getElementById('id_kra_pin').value;
-                        const id_gender = document.getElementById('id_gender').value;
-                        const id_Nationality = document.getElementById('id_Nationality').value;
-                        const id_town = document.getElementById('id_town').value;
-                        const id_mobile_number = document.getElementById('id_mobile_number').value;
-                        const maritalStatus = document.getElementById('maritalStatus').value;
-                        const county = document.getElementById('county').value;
-                        const disability = document.querySelector('input[name="disability"]:checked').value;
-                        const description = document.getElementById('id_description').value;
-                        // Do something with the form data
-            document.getElementById('nextButton').addEventListener('click', function() {
-                window.location.href = "education.html";
-            });
-            <!-- Template Main JS File -->
-            <script>
-              // Function to hide the message dialog after 5 seconds
-            function hideMessageDialog() {
-              var messageDialog = document.getElementById('msg');
-              if (messageDialog) {
-                messageDialog.style.display = 'none';
-              }
-          }
-          
-          // Set timeout to call the hideMessageDialog function after 5 seconds
-            setTimeout(hideMessageDialog, 5000);
-            </script>
-            <script>
-              document.getElementById('currentYear').innerText = new Date().getFullYear();
-            </script>
         </script>
-  
-        </div>
     </body>
-    </html>
-
+</html>
 {% endblock %}

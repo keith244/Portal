@@ -1,134 +1,235 @@
 {% extends 'layout/base.html' %}
 {% block content %}
 <div class="text-center">
-<h4>Step 2 of 4</h4>
-<h3>Personal Details</h3>
+  <h4>Step 2 of 4</h4>
+  <h3>Education Level</h3>
 </div>
 <div class="card">
-    <div class="card-body">
-      <h5 class="card-title"> Education Level</h5>
+  <div class="card-body">
+    <h5 class="card-title"> Education Level</h5>
 
-      <!-- General Form Elements -->
-      <form method="POST">
-        {% csrf_token %}
+    <!-- General Form Elements -->
+    <form method="POST" id="educationForm" action="{% url 'education' %}">
+      {% csrf_token %}
+      <div class="row mb-3">
+        <label for="education" class="col-sm-2 col-form-label">Education</label>
+        <div class="col-sm-10">
+          <select class="form-control" name="education" id="education" required>
+            <option value="">Select Education Level</option>
+            <option value="Primary">Primary</option>
+            <option value="Secondary">Secondary</option>
+            <option value="University">University</option>
+          </select>
+        </div>
+      </div>
+      <div id="schoolNameSection" style="display: none;">
         <div class="row mb-3">
-          <label for="inputText" class="col-sm-2 col-form-label">Education</label>
+          <label for="schoolName" class="col-sm-2 col-form-label">School Name</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" name="education">
+            <input type="text" class="form-control" name="school_name" id="schoolName">
           </div>
         </div>
+      </div>
+      <div id="coursePursuedSection" style="display: none;">
         <div class="row mb-3">
-            <label for="inputText" class="col-sm-2 col-form-label">Course Pursued</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" name="course">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="institution">Which institution did you study in:</label>
-            <input list="institutions" placeholder="Type in your institution" name="institution" id="institution" class="form-control">
-            <datalist id="institutions">
-                <option value="Adventist University of Africa">
-                <option value="Africa International University">
-                <option value="Africa Nazarene University">
-                <option value="Amref International University">
-                <option value="Chuka University">
-                <option value="Cooperative University of Kenya">
-                <option value="Daystar University">
-                <option value="Dedan Kimathi University of Technology">
-                <option value="Egerton University">
-                <option value="Garissa University">
-                <option value="Great Lakes University of Kisumu">
-                <option value="Gretsa University">
-                <option value="International Leadership University, Kenya">
-                <option value="Islamic University of Kenya">
-                <option value="Jaramogi Oginga Odinga University of Science and Technology">
-                <option value="Jomo Kenyatta University of Agriculture and Technology">
-                <option value="Kabarak University">
-                <option value="KAG East University">
-                <option value="Karatina University">
-                <option value="KCA University">
-                <option value="Kenya Highlands University">
-                <option value="Kenya Methodist University">
-                <option value="Kibabii University">
-                <option value="Kenyatta University">
-                <option value="Kirinyaga University">
-                <option value="Kiriri Women's University of Science and Technology">
-                <option value="Kisii University">
-                <option value="Laikipia University">
-                <option value="Lukenya University">
-                <option value="Maasai Mara University">
-                <option value="Machakos University">
-                <option value="Management University of Africa">
-                <option value="Maseno University">
-                <option value="Masinde Muliro University of Science and Technology">
-                <option value="Meru University of Science and Technology">
-                <option value="Moi University">
-                <option value="Mount Kenya University">
-                <option value="Multimedia University of Kenya">
-                <option value="Murang'a University of Technology">
-                <option value="Pan Africa Christian University">
-                <option value="Pioneer International University">
-                <option value="Pwani University">
-                <option value="Riara University">
-                <option value="Rongo University">
-                <option value="Scott Christian University">
-                <option value="South Eastern Kenya University">
-                <option value="St. Paul's University">
-                <option value="Strathmore University">
-                <option value="Taita Taveta University">
-                <option value="Technical University of Kenya">
-                <option value="Technical University of Mombasa">
-                <option value="The Catholic University of Eastern Africa">
-                <option value="The Co-operative University of Kenya">
-                <option value="The East African University">
-                <option value="The Presbyterian University of East Africa">
-                <option value="Umma University">
-                <option value="United States International University Africa">
-                <option value="University of Eastern Africa, Baraton">
-                <option value="University of Eldoret">
-                <option value="University of Embu">
-                <option value="University of Kabianga">
-                <option value="Uzima University">
-                <option value="Zetech University">
-            </datalist>
-        </div>
-        <div class="row mb-3">
-          <label for="inputDate" class="col-sm-2 col-form-label">Year of graduation</label>
+          <label for="course" class="col-sm-2 col-form-label">Course Pursued</label>
           <div class="col-sm-10">
-            <input type="date" class="form-control" name="grad_year">
+            <input type="text" class="form-control" name="course" id="course">
           </div>
         </div>
-        <div class="row mb-3">
-            <label for="inputText" class="col-sm-2 col-form-label">Additional courses</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" name="add_courses">
-            </div>
+      </div>
+      <div id="institutionSection" style="display: none;">
+        <div class="form-group">
+          <label for="institution">Which institution did you study in:</label>
+              <input list="institutions" placeholder="Type in your institution" name="institution" id="institution" class="form-control">
+              <datalist id="institutions">
+                  <option value="Adventist University of Africa">
+                  <option value="Africa International University">
+                  <option value="Africa Nazarene University">
+                  <option value="Amref International University">
+                  <option value="Chuka University">
+                  <option value="Cooperative University of Kenya">
+                  <option value="Daystar University">
+                  <option value="Dedan Kimathi University of Technology">
+                  <option value="Egerton University">
+                  <option value="Garissa University">
+                  <option value="Great Lakes University of Kisumu">
+                  <option value="Gretsa University">
+                  <option value="International Leadership University, Kenya">
+                  <option value="Islamic University of Kenya">
+                  <option value="Jaramogi Oginga Odinga University of Science and Technology">
+                  <option value="Jomo Kenyatta University of Agriculture and Technology">
+                  <option value="Kabarak University">
+                  <option value="KAG East University">
+                  <option value="Karatina University">
+                  <option value="KCA University">
+                  <option value="Kenya Highlands University">
+                  <option value="Kenya Methodist University">
+                  <option value="Kibabii University">
+                  <option value="Kenyatta University">
+                  <option value="Kirinyaga University">
+                  <option value="Kiriri Women's University of Science and Technology">
+                  <option value="Kisii University">
+                  <option value="Laikipia University">
+                  <option value="Lukenya University">
+                  <option value="Maasai Mara University">
+                  <option value="Machakos University">
+                  <option value="Management University of Africa">
+                  <option value="Maseno University">
+                  <option value="Masinde Muliro University of Science and Technology">
+                  <option value="Meru University of Science and Technology">
+                  <option value="Moi University">
+                  <option value="Mount Kenya University">
+                  <option value="Multimedia University of Kenya">
+                  <option value="Murang'a University of Technology">
+                  <option value="Pan Africa Christian University">
+                  <option value="Pioneer International University">
+                  <option value="Pwani University">
+                  <option value="Riara University">
+                  <option value="Rongo University">
+                  <option value="Scott Christian University">
+                  <option value="South Eastern Kenya University">
+                  <option value="St. Paul's University">
+                  <option value="Strathmore University">
+                  <option value="Taita Taveta University">
+                  <option value="Technical University of Kenya">
+                  <option value="Technical University of Mombasa">
+                  <option value="The Catholic University of Eastern Africa">
+                  <option value="The Co-operative University of Kenya">
+                  <option value="The East African University">
+                  <option value="The Presbyterian University of East Africa">
+                  <option value="Umma University">
+                  <option value="United States International University Africa">
+                  <option value="University of Eastern Africa, Baraton">
+                  <option value="University of Eldoret">
+                  <option value="University of Embu">
+                  <option value="University of Kabianga">
+                  <option value="Uzima University">
+              
+            <!-- Add more options as needed -->
+          </select>
         </div>
-
-          <div class="col-sm-10">
-            <button type="submit" class="btn btn-success">Save</button>
-            <button type="submit" id="proceedBtn" class="btn btn-success">Proceed</button>
-          </div>
+      </div>
+      <div class="row mb-3">
+        <label class="col-sm-2 col-form-label">Years Attended</label>
+        <div class="col-sm-5">
+          <input type="number" class="form-control" name="start_year" id="startYear" placeholder="Start Year">
         </div>
+        <div class="col-sm-5">
+          <input type="number" class="form-control" name="end_year" id="endYear" placeholder="End Year">
+        </div>
+      </div>
+      <div class="row mb-3" id="additionalCoursesSection" style="display: none;">
+        <label for="add_courses" class="col-sm-2 col-form-label">Additional Courses</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="add_courses" id="add_courses">
+        </div>
+      </div>
 
-      </form><!-- End General Form Elements -->
+      <div class="col-sm-10">
+        <button type="button" class="btn btn-success" id="saveBtn">Save</button>
+        <button type="button" id="proceedBtn" class="btn btn-success">Proceed</button>
+        <div id="errorMessage" style="color: red; display: none;">Please fill in the form before proceeding.</div>
+      </div>
+    </form><!-- End General Form Elements -->
 
-    </div>
   </div>
-    <!-- Template Main JS File -->
-    <script>
-      // Function to hide the message dialog after 5 seconds
-    function hideMessageDialog() {
-      var messageDialog = document.getElementById('msg');
-      if (messageDialog) {
-        messageDialog.style.display = 'none';
-      }
+</div>
+
+<script>
+  // Function to check if the form is valid
+  function isFormValid() {
+    return document.getElementById('educationForm').checkValidity();
   }
-  
-  // Set timeout to call the hideMessageDialog function after 5 seconds
-    setTimeout(hideMessageDialog, 5000);
-    </script>
-    <script>
-      document.getElementById('currentYear').innerText = new Date().getFullYear();
-    </script>
+
+  // Function to save form data to localStorage
+  function saveFormData() {
+    localStorage.setItem('education', document.getElementById('education').value);
+    localStorage.setItem('school_name', document.getElementById('schoolName').value);
+    localStorage.setItem('course', document.getElementById('course').value);
+    localStorage.setItem('institution', document.getElementById('institution').value);
+    localStorage.setItem('start_year', document.getElementById('startYear').value);
+    localStorage.setItem('end_year', document.getElementById('endYear').value);
+    localStorage.setItem('add_courses', document.getElementById('add_courses').value);
+  }
+
+  // Function to populate form fields from localStorage
+  function populateFormFromStorage() {
+    document.getElementById('education').value = localStorage.getItem('education') || '';
+    document.getElementById('schoolName').value = localStorage.getItem('school_name') || '';
+    document.getElementById('course').value = localStorage.getItem('course') || '';
+    document.getElementById('institution').value = localStorage.getItem('institution') || '';
+    document.getElementById('startYear').value = localStorage.getItem('start_year') || '';
+    document.getElementById('endYear').value = localStorage.getItem('end_year') || '';
+    document.getElementById('add_courses').value = localStorage.getItem('add_courses') || '';
+  }
+
+  // Populate form fields on page load
+  window.addEventListener('load', function() {
+    populateFormFromStorage();
+    checkEducationLevel(); // Check education level on page load
+  });
+
+  // Function to check selected education level and show/hide sections accordingly
+  function checkEducationLevel() {
+    var educationLevel = document.getElementById('education').value;
+    if (educationLevel === 'Primary' || educationLevel === 'Secondary') {
+      document.getElementById('schoolNameSection').style.display = 'block';
+      document.getElementById('coursePursuedSection').style.display = 'none';
+      document.getElementById('institutionSection').style.display = 'none';
+      document.getElementById('additionalCoursesSection').style.display = 'none';
+      document.getElementById('startYear').placeholder = 'Year Started';
+      document.getElementById('endYear').placeholder = 'Year Finished';
+    } else if (educationLevel === 'University') {
+      document.getElementById('schoolNameSection').style.display = 'none';
+      document.getElementById('coursePursuedSection').style.display = 'block';
+      document.getElementById('institutionSection').style.display = 'block';
+      document.getElementById('additionalCoursesSection').style.display = 'block';
+      document.getElementById('startYear').placeholder = 'Start Year';
+      document.getElementById('endYear').placeholder = 'End Year';
+    } else {
+      // Default case if none selected
+      document.getElementById('schoolNameSection').style.display = 'none';
+      document.getElementById('coursePursuedSection').style.display = 'none';
+      document.getElementById('institutionSection').style.display = 'none';
+      document.getElementById('additionalCoursesSection').style.display = 'none';
+      document.getElementById('startYear').placeholder = 'Start Year';
+      document.getElementById('endYear').placeholder = 'End Year';
+    }
+  }
+
+  // Education level change event listener
+  document.getElementById('education').addEventListener('change', function(event) {
+    checkEducationLevel();
+  });
+
+  // Save button click event listener
+  document.getElementById('saveBtn').addEventListener('click', function(event) {
+    if (isFormValid()) {
+      saveFormData();
+      alert('Form data saved successfully.');
+    } else {
+      showErrorMessage();
+    }
+  });
+
+  // Proceed button click event listener
+  document.getElementById('proceedBtn').addEventListener('click', function(event) {
+    if (isFormValid()) {
+      saveFormData(); // Save data before proceeding
+      window.location.href = "{% url 'work_experience' %}"; // Proceed to next page
+    } else {
+      showErrorMessage();
+    }
+  });
+
+  // Function to show error message and hide after 5 seconds
+  function showErrorMessage() {
+    var errorMessage = document.getElementById('errorMessage');
+    errorMessage.style.display = 'block';
+    setTimeout(function() {
+      errorMessage.style.display = 'none';
+    }, 5000); // 5000 milliseconds = 5 seconds
+  }
+</script>
 {% endblock %}
