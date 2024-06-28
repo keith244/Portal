@@ -12,7 +12,7 @@ urlpatterns=[
     path('staff/addjob', views.add_Job, name="add_job"),
 
     #CRUD OPERATIONS
-    path('staff/<int:job_id>', views.job_view, name='view_job' ),
+    path('staff/<int:job_id>/', views.job_view, name='job_view' ),
     path('staff/<int:job_id>/update', views.update_job, name='update_job'), #UPDATE
     path('staff/<int:job_id>/delete', views.delete_job, name='delete_job'), #DELETE
 

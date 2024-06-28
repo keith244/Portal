@@ -6,8 +6,7 @@
       <div class="row">
     </div>
     </div>
-    <h1>Jobs</h1>
-    {% for job in jobs %}
+    <h1><strong>JOB TITLE: </strong>{{job.title}}</h1>
     <div class="col-lg-6">
   <div class="info-box card">
     <i class="bi bi-briefcase"></i>
@@ -17,16 +16,10 @@
       <p><strong>RESPONSIBILITIES:</strong> {{job.responsibilities}}</p>
       <p><strong>REQUIREMENTS:</strong> {{job.requirements}}</p>
       <div class="col-md-12 text-center">
-        {% if user.is_staff%}
-        <a href="{% url 'update_job' job.id %}" class="btn btn-info">Update job details</a>
-        <a href="{% url 'delete_job' job.id %}" class="btn btn-outline-danger">Delete job</a>
-        {% else %}
-        <a href="{% url 'job_view' job.id %}" class="btn btn-success" type="submit">Read more</a>
-        {%endif%}
+        <a href="#" class="btn btn-success" type="submit">Apply</a>
       </div>
   </div>
 </div>
-{% endfor %}
         </div>
       </div>
     </section>

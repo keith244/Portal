@@ -98,9 +98,12 @@ def jobs(request):
     return render(request, 'modules/jobs.html', {'jobs':jobs})
 
 """CRUD OPERATION START HERE"""
-def job_view(request,job_id):
-    job = get_object_or_404(Jobs, pk = job_id)
-    return render(request, 'staff/<int:job_id>', {'job':job})
+# def job_view(request,job_id):
+#     job = get_object_or_404(Jobs, pk = job_id)
+#     return render(request, 'staff/<int:job_id>/view' ,{'job':job})
+def job_view(request, job_id):
+    job = get_object_or_404(Jobs, pk=job_id)
+    return render(request, 'staff/job_view.html', {'job': job})
 
 
 def update_job(request, job_id):
@@ -123,8 +126,8 @@ def delete_job(request,job_id):
         job.delete()
         messages.success(request, 'Job deleted successfully')
         return redirect('jobs')
-    else:
-        messages.error(request, 'Not authorised')
+    # else:
+    #     messages.error(request, 'Not authorised')
     return render(request, 'staff/delete_job.html',{'job':job})
 
 
