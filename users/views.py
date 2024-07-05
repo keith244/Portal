@@ -155,7 +155,6 @@ def forgot_password(request):
             recipient_list = [email]
             send_mail(subject, message, email_from, recipient_list, fail_silently=False)
             messages.success(request, 'Request received. Check your email for further instructions')
-            print('Email sent')
         except SMTPException:
             messages.error(request, 'Something went wrong. Please try again later.')
         except Http404:
@@ -173,11 +172,11 @@ def reset_password(request, id):
         confirm_password = request.POST.get('confirm_password')
         if new_password == confirm_password:
             try:
-                user = get_object_or_404(User, id)
+                user = get_object_or_404(User, id=id)
                 user.set_password(new_password)
                 user.save()
                 messages.success(request, 'Password was reset successfully')
-            except Exception:
+            except Exception as e:
                 messages.error(request, 'Could not complete your request. Please try again later.')
             return redirect('users-login')
         else:

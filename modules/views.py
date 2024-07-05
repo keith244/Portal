@@ -69,7 +69,7 @@ def education(request):
         messages.success(request, 'Education details saved successfully!!')
         return redirect('work')
     else:
-        messages.error(request,'Unable to save documents. Please try again.')
+        messages.error(request,'Unable to save education details. Please try again.')
     return render(request, 'modules/education.html')
 def profile_user(request):
     return render(request, 'modules/profile.html')
