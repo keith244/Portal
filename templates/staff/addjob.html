@@ -1,5 +1,15 @@
 {% extends 'layout/base.html' %}
 {% block content %}
+<style>
+  .bullet-points{
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  textarea {
+    width: 100%;
+    margin-bottom: 20px;
+}
+</style>
 <div class="col-xl-6">
     <div class="card p-4">
       <form method="post">
@@ -14,11 +24,11 @@
               </div> -->
               <div class="col-md-12">
                 <textarea class="form-control" name="responsibilities" rows="6" placeholder="Responsibilities" required></textarea>
-                </div>
+              </div>
                 
-                <div class="col-md-12">
-                  <textarea class="form-control" name="requirements" rows="6" placeholder="Requirements" required></textarea>
-                  </div>
+              <div class="col-md-12">
+                <textarea class="form-control" name="requirements" rows="6" placeholder="Requirements" required></textarea>
+              </div>
                   
           <div class="col-md-12 text-center">
             <button class="btn btn-success" type="submit">Post Job</button>
@@ -28,5 +38,53 @@
       </form>
     </div>
   </div>
+  <script>
+    // Get the textarea element
+    const textarea = document.querySelector('textarea[name="responsibilities"]');
+
+    // Function to handle bullet points
+    function handleBullets(event) {
+        if (event.inputType === 'insertLineBreak') {
+            // Get the current cursor position
+            const cursorPos = textarea.selectionStart;
+
+            // Insert bullet point at the new line
+            const value = textarea.value;
+            const beforeCursor = value.substring(0, cursorPos);
+            const afterCursor = value.substring(cursorPos);
+
+            // Check if we are at the start or there's already a bullet on the new line
+            const lastNewLineIndex = beforeCursor.lastIndexOf('\n');
+            const newLineContent = beforeCursor.slice(lastNewLineIndex + 1);
+
+            if (newLineContent.trim() !== '' && !newLineContent.trim().startsWith('•')) {
+                // Insert bullet only if the new line doesn't already start with a bullet
+                textarea.value = beforeCursor + '\n• ' + afterCursor;
+                
+                // Adjust cursor position to be right after the new bullet
+                textarea.setSelectionRange(cursorPos + 3, cursorPos + 3);
+            } else {
+                // If there's already a bullet, just move the cursor
+                textarea.setSelectionRange(cursorPos, cursorPos);
+            }
+        }
+    }
+
+    // Event listener to handle bullet points on input
+    textarea.addEventListener('input', handleBullets);
+
+    // Add an initial bullet point on focus if the textarea is empty
+    textarea.addEventListener('focus', () => {
+        if (textarea.value.trim() === '') {
+            textarea.value = '• ';
+        }
+    });
+
+    // Add bullet points to existing lines when the page loads
+    window.addEventListener('DOMContentLoaded', () => {
+        const lines = textarea.value.split('\n');
+        textarea.value = lines.map(line => line.trim() ? '• ' + line.trim() : '').join('\n');
+    });
+</script>
 
 {% endblock %}

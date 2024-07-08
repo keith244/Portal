@@ -135,13 +135,13 @@
                     {% csrf_token %}
                     <div class="col-12">
                       <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" value="{{email}}" class="form-control" id="yourEmail" required>
+                      <input type="email" name="email" value="{{email}}" class="form-control" id="yourEmail" >
                       <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <input type="password" name="password" class="form-control" id="yourPassword" >
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -198,6 +198,21 @@
             }
         });
     });
+    document.addEventListener('DOMContentLoaded', function() {
+    var messageDialog = document.getElementById('msg');
+    if (messageDialog) {
+        setTimeout(function() {
+            messageDialog.style.opacity = '1';
+            (function fade() {
+                if ((messageDialog.style.opacity -= .1) < 0) {
+                    messageDialog.style.display = 'none';
+                } else {
+                    requestAnimationFrame(fade);
+                }
+            })();
+        }, 1000); // Waits for 3 seconds before starting to fade
+    }
+})
 </script>
   <script src="{% static 'vendor/apexcharts/apexcharts.min.js' %}"></script>
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>

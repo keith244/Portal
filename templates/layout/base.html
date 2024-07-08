@@ -406,9 +406,26 @@
 
   <!-- Template Main JS File -->
   <script src="{% static 'js/main.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var messageDialog = document.getElementById('msg');
+    if (messageDialog) {
+        setTimeout(function() {
+            messageDialog.style.opacity = '1';
+            (function fade() {
+                if ((messageDialog.style.opacity -= .1) < 0) {
+                    messageDialog.style.display = 'none';
+                } else {
+                    requestAnimationFrame(fade);
+                }
+            })();
+        }, 3000); // Waits for 3 seconds before starting to fade
+    }
+});
+  </script>
   {% block extrajs %}
   {% endblock %}
-
+  
 </body>
 
 </html>

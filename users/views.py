@@ -55,21 +55,26 @@ def iregister(request):
         return render(request, 'users/register.html')
     
 def ilogin(request):
-    if request.method =='POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        try:
-            get_object_or_404(User, email=email)
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request,user)
-                messages.success( request, f'Welcome {email}!!')
-                return redirect('users-index')
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if not email or not password:
+            messages.error(request, 'Please provide both email and password.')
+            return render(request, 'users/login.html', {'email': email})
+
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, f'Welcome {email}!')
+            return redirect('users-index')
+        else:
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'Invalid login credentials.')
             else:
-                 messages.error(request, 'Invalid login credentials')
-        except Http404:
-            messages.error(request, f'Account with email {email} does not exist. Create account to continue')
-        return render(request, 'users/login.html', {'email':email})
+                messages.error(request, f'Account with email {email} does not exist. Create account to continue.')
+        
+        return render(request, 'users/login.html', {'email': email})
     else:      
         return render(request, 'users/login.html')
     
@@ -220,5 +225,6 @@ def reset_password_confirm(request):
             return render(request, 'users/reset_password.html')
                 
     return render(request, 'users/reset_password_confirm.html')
+
 
 

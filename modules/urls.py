@@ -10,7 +10,7 @@ urlpatterns=[
     path('modules/jobs',views.jobs,name='jobs' ),
     #MODERATOR ONLY URLS
     path('staff/addjob', views.add_Job, name="add_job"),
-
+    path('profile',views.profile, name='profile'),
     #CRUD OPERATIONS
     path('staff/<int:job_id>/', views.job_view, name='job_view' ),
     path('staff/<int:job_id>/update', views.update_job, name='update_job'), #UPDATE

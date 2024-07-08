@@ -9,12 +9,18 @@ User = get_user_model()
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    bio = models.TextField(blank=True)  
-    linked_in = models.URLField(max_length=200 )
-    #timestamp = models.DateTimeField(default=datetime.now, auto_now_add=True)
-    
+    about = models.TextField()
+    job = models.CharField(max_length=150)
+    #how do i create a single field called socials here that can then be extended by fields below?
+    linked_in = models.URLField(max_length=200, blank=True)
+    twitter = models.URLField(max_length=200, blank=True)
+    github = models.URLField(max_length=200, blank=True)
+
+
     def __str__(self):
             return f'{self.user.name} Profile'
+    class Meta:
+          verbose_name_plural = 'User Profile'
 
 
 class WorkExperience(models.Model):
