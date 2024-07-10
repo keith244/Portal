@@ -1,4 +1,51 @@
 {% extends 'layout/base.html' %}
 {% block content %}
-<h1>Hello {{name}}</h1>
-{%endblock%}                                        
+<style>
+  .responsibilities-list {
+    list-style-type: none;
+    padding-left: 20px;
+  }
+
+  .responsibilities-list li::before {
+    content: "•";
+    color: #000;  /* Change color as needed */
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+  }
+</style>
+<section class="section contact">
+  <div class="row gy-4">
+    <div class="col-xl-6">
+      <div class="row">
+    </div>
+    </div>
+    <h4>Welcome, {{user.name}}.</h4>
+    <h2>Ready for the next step in your career?<br>Browse through our latest job postings below.</h2>
+    {% for job in jobs %}
+    <div class="col-lg-6">
+  <div class="info-box card">
+    <i class="bi bi-briefcase"></i>
+      <h3><strong>TITLE:</strong> {{ job.title }}</h3> 
+      <p><strong>Date posted: </strong>{{ job.timestamp }}</p> 
+      <p>{{job.responsibilities}}</p>
+      <p>Job ID: {{job.id}}</p>
+      <p><strong>RESPONSIBILITIES:</strong>{{job.responsibilities}}</p>
+      <p><strong>REQUIREMENTS:</strong> {{job.requirements}}</p>
+      <div class="col-md-12 text-center">
+        {% if user.is_staff%}
+        <a href="{% url 'update_job' job.id %}" class="btn btn-info">Update job details</a>
+        <a href="{% url 'delete_job' job.id %}" class="btn btn-outline-danger">Delete job</a>
+        {% else %}
+        <a href="{% url 'job_view' job.id %}" class="btn btn-success" type="submit">Discover</a>
+        {%endif%}
+      </div>
+  </div>
+</div>
+{% endfor %}
+        </div>
+      </div>
+    </section>
+<!-- scripts -->
+<!-- scripts -->
+{% endblock %}

@@ -67,7 +67,7 @@ def ilogin(request):
         if user is not None:
             login(request, user)
             messages.success(request, f'Welcome {email}!')
-            return redirect('users-index')
+            return redirect('jobs')
         else:
             if User.objects.filter(email=email).exists():
                 messages.error(request, 'Invalid login credentials.')
@@ -158,6 +158,7 @@ def forgot_password(request):
             message = f'Hi {user_name}, click the link below to change your password,\n\n{activation_link}'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [email]
+            print('fooooo')
             send_mail(subject, message, email_from, recipient_list, fail_silently=False)
             messages.success(request, 'Request received. Check your email for further instructions')
         except SMTPException:

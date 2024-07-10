@@ -317,3 +317,45 @@
   }
 
 })();
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Get all links inside the forms-nav
+  const links = document.querySelectorAll('#forms-nav a');
+  
+  // Function to set active link
+  function setActiveLink(clickedLink) {
+    links.forEach(link => {
+      link.parentElement.classList.remove('active');
+    });
+    clickedLink.parentElement.classList.add('active');
+  }
+
+  // Add click event listener to each link
+  links.forEach(link => {
+    link.addEventListener('click', function(e) {
+      setActiveLink(this);
+      
+      // Keep the parent menu open
+      const parentCollapse = this.closest('.collapse');
+      if (parentCollapse) {
+        parentCollapse.classList.add('show');
+      }
+      
+      // Store the active link in localStorage
+      localStorage.setItem('activeLink', this.getAttribute('href'));
+    });
+  });
+
+  // Check for active link on page load
+  const activeLink = localStorage.getItem('activeLink');
+  if (activeLink) {
+    const link = document.querySelector(`a[href="${activeLink}"]`);
+    if (link) {
+      setActiveLink(link);
+      const parentCollapse = link.closest('.collapse');
+      if (parentCollapse) {
+        parentCollapse.classList.add('show');
+      }
+    }
+  }
+});

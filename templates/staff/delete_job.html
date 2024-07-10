@@ -18,8 +18,8 @@
 <form method="post" action="{% url 'delete_job' job_id=job.id %}" >
     {% csrf_token %}
     <div class="text-center">
-        <a href="{% url 'jobs' %}" class="btn btn-outline-secondary" >Cancel</a>
-        <button type="submit" class="btn btn-outline-danger">Delete</button>
+        <a href="{% url 'jobs' %}" class="btn btn-outline-primary" >Go back</a>
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
     </div>
 </form>
 

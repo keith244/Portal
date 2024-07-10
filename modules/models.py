@@ -23,6 +23,7 @@ class Profile(models.Model):
           verbose_name_plural = 'User Profile'
 
 
+
 class WorkExperience(models.Model):
       user = models.ForeignKey(User, on_delete=models.CASCADE)
       company = models.CharField(max_length=254)

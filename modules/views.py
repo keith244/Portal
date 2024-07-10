@@ -6,9 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.utils.dateparse import parse_date
 
 # Create your views here.
+@login_required(login_url='users-login')
 def personal(request):
     #return redirect('personal-details')
     return render(request, 'modules/personaldetails.html')
+
 @login_required(login_url='users-login')
 def add_documents(request):
     if request.method == 'POST':
@@ -30,7 +32,7 @@ def add_documents(request):
             return redirect('documents')
     return render(request, 'modules/add_documents.html')
 
-@login_required(login_url='users-login')
+#@login_required(login_url='users-login')
 def work_experience(request):
     if request.method == 'POST':
         company = request.POST.get('company') 
@@ -123,6 +125,7 @@ def jobs(request):
 #     return render(request, 'staff/<int:job_id>/view' ,{'job':job})
 def job_view(request, job_id):
     job = get_object_or_404(Jobs, pk=job_id)
+    job.responsibilities_list = [r.strip() for r in job.responsibilities.split('•') if r.strip()]
     return render(request, 'staff/job_view.html', {'job': job})
 
 

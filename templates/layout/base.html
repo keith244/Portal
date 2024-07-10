@@ -206,7 +206,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="{% static 'img/profile-img.jp' %}g" alt="Profile" class="rounded-circle">
+            <img src="{% static 'img/default.jpg' %}" alt="Profile" class="rounded-circle">
             <span class="d-none d-md-block dropdown-toggle ps-2">{{user.email}}</span>
           </a><!-- End Profile Iamge Icon -->
 
@@ -220,7 +220,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'profile' %}">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -270,7 +270,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="#">
+        <a class="nav-link " href="{% url 'jobs' %}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -279,19 +279,19 @@
 
 
 
-      <li class="nav-heading">Pages</li>
+      <!-- <li class="nav-heading">Pages</li> -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{% url 'profile' %}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Help us know you better</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="forms-nav" class="nav-content collapse show " data-bs-parent="#sidebar-nav">
           <li>
             <a href="{% url 'personal-details' %}">
               <i class="bi bi-circle"></i><span>Personal details</span>
@@ -329,12 +329,12 @@
         </a>
       </li>
       {% endif %}
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="{% url 'jobs' %}">
           <i class="bi bi-briefcase"></i>
           <span>Discover Jobs</span>
         </a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#">
           <i class="bi bi-envelope"></i>
@@ -351,7 +351,7 @@
       </li><!-- End Login Page Nav -->
       {% else %}
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link collapsed" href="{% url 'users-register' %}">
           <i class="bi bi-card-list"></i>
           <span>Register</span>
         </a>
@@ -422,9 +422,7 @@
         }, 3000); // Waits for 3 seconds before starting to fade
     }
 });
-  </script>
-  {% block extrajs %}
-  {% endblock %}
+</script>
   
 </body>
 

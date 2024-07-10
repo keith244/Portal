@@ -13,6 +13,11 @@
   scroll-behavior: smooth;
 }
 
+#forms-nav .active > a {
+  color: #012970;
+  font-weight: bold;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   background: #f6f9ff;
