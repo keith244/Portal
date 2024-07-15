@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from datetime import datetime
-
+from django.core.validators import RegexValidator
 
 User = get_user_model()
 
@@ -12,13 +12,15 @@ class Profile(models.Model):
     about = models.TextField()
     job = models.CharField(max_length=150)
     #how do i create a single field called socials here that can then be extended by fields below?
-    linked_in = models.URLField(max_length=200, blank=True)
     twitter = models.URLField(max_length=200, blank=True)
+    facebook=models.URLField(max_length=200,blank=True)
+    instagram = models.URLField(max_length=200, blank=True)
+    linked_in = models.URLField(max_length=200, blank=True)
     github = models.URLField(max_length=200, blank=True)
-
+    phone = models.CharField(max_length=10,blank=True)
 
     def __str__(self):
-            return f'{self.user.name} Profile'
+            return f'{self.user.name}-- Profile'
     class Meta:
           verbose_name_plural = 'User Profile'
 

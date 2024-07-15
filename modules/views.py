@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .models import WorkExperience, Education,Jobs,Documents
+from .models import WorkExperience, Education,Jobs,Documents, Profile
 from django.contrib.auth.decorators import login_required
 from django.utils.dateparse import parse_date
 
@@ -10,6 +10,7 @@ from django.utils.dateparse import parse_date
 def personal(request):
     #return redirect('personal-details')
     return render(request, 'modules/personaldetails.html')
+
 
 @login_required(login_url='users-login')
 def add_documents(request):
@@ -31,6 +32,7 @@ def add_documents(request):
             messages.error(request,'Unable to save documents. Error : {str(e)}.')
             return redirect('documents')
     return render(request, 'modules/add_documents.html')
+
 
 #@login_required(login_url='users-login')
 def work_experience(request):
@@ -64,6 +66,7 @@ def work_experience(request):
             return redirect('work')
     return render(request, 'modules/workexperience.html')
 
+
 @login_required(login_url='users-login')
 def education(request):
     if request.method == 'POST':
@@ -90,8 +93,11 @@ def education(request):
             messages.error(request,'Unable to save education details. Error : {str(e)}.')
             return redirect('education')
     return render(request,'modules/education.html')
+
+
 def profile_user(request):
     return render(request, 'modules/profile.html')
+
 
 #Handles job being created and posted to database 
 @login_required(login_url='users-login')
@@ -115,19 +121,18 @@ def add_Job(request):
             return redirect('add_job')
     return render(request, 'staff/addjob.html')
 #to handle job being posted to the html template
+
+# @login_required(login_url='users-login')
 def jobs(request):
     jobs = Jobs.objects.all().order_by('-timestamp')
     return render(request, 'modules/jobs.html', {'jobs':jobs})
 
 """CRUD OPERATION START HERE"""
-# def job_view(request,job_id):
-#     job = get_object_or_404(Jobs, pk = job_id)
-#     return render(request, 'staff/<int:job_id>/view' ,{'job':job})
+
 def job_view(request, job_id):
     job = get_object_or_404(Jobs, pk=job_id)
     job.responsibilities_list = [r.strip() for r in job.responsibilities.split('•') if r.strip()]
     return render(request, 'staff/job_view.html', {'job': job})
-
 
 def update_job(request, job_id):
     job = get_object_or_404(Jobs, pk = job_id)
@@ -159,5 +164,43 @@ def delete_job(request,job_id):
 def personal_details(request):
     return render(request, 'modules/personaldetails.html')
 
+
+@login_required(login_url='users-login')
 def profile(request):
+    if request.method == 'POST':
+        image     = request.FILES.get('image')
+        about     = request.POST.get('about')
+        job       = request.POST.get('job') 
+        phone     = request.POST.get('phone')  
+        twitter   = request.POST.get('twitter')  
+        facebook  = request.POST.get('facebook')  
+        instagram = request.POST.get('instagram')     
+        linked_in = request.POST.get('linked_in')   
+        github    = request.POST.get('github')    
+
+        user_pofile = request.user.profile
+
+        if not user_pofile:
+            try:
+                Profile.objects.create(
+                    user       = request.user,
+                    image      = image,
+                    about      = about,
+                    job        = job ,
+                    phone      = phone,
+                    twitter    = twitter,
+                    facebook   = facebook,
+                    instagram  = instagram,
+                    linked_in  = linked_in,
+                    github     = github,
+
+                )
+                messages.success(request, 'Deatils updated')
+            except Exception as e:
+                print(e)
+                messages.error(request, 'Profile not updated. {e}')
+        else:
+            messages.error(request, 'User profile exists!')
+        return redirect('profile')
+
     return render(request, 'modules/user_profile.html')

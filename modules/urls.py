@@ -5,11 +5,11 @@ urlpatterns=[
     path('education/', views.education, name='education'),
     path('documents/', views.add_documents, name='documents'),
     path('work/', views.work_experience, name='work'),
-    path('profile/', views.profile_user, name="profile-user"),
+    # path('profile/', views.profile_user, name="profile-user"),
     path('personal/', views.personal_details, name="personal-details"),
     path('jobs/',views.jobs,name='jobs' ),
     #MODERATOR ONLY URLS
-    path('profile',views.profile, name='profile'),
+    path('profile/',views.profile, name='profile'),
     #CRUD OPERATIONS
     path('staff/addjob', views.add_Job, name="add_job"), #CREATE
     path('staff/<int:job_id>/', views.job_view, name='job_view' ), #READ
