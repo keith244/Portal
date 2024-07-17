@@ -40,7 +40,7 @@
         <a href="{% url 'update_job' job.id %}" class="btn btn-info">Update job details</a>
         <a href="{% url 'delete_job' job.id %}" class="btn btn-outline-danger">Delete job</a>
         {% else %}
-        <a href="{% url 'job_view' job.id %}" class="btn btn-success" type="submit">Discover</a>
+        <a href="{% url 'job_details' job.id %}" class="btn btn-success" type="submit">Discover</a>
         {%endif%}
       </div>
     </div>

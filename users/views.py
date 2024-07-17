@@ -34,7 +34,7 @@ def iregister(request):
         #check is account is created
         
 
-        # # Create user with proper username validation (avoid spaces or special characters)
+        # Create user with proper username validation (avoid spaces or special characters)
         # username = name.strip()  # Remove leading/trailing whitespaces
         # if not username or username.isalnum():  # Check for alphanumeric characters only
         #     messages.error(request, "Invalid username. Usernames cannot be empty or contain special characters.")
@@ -45,12 +45,6 @@ def iregister(request):
         user.is_active = True
         user.save()
         return redirect('users-login')
-
-        # Authenticate and log in the newly created user (optional)
-        # user = authenticate(username=username, password=pass1)
-        # if user is not None:
-        #     login(request, user)
-        #     return redirect('users-login')  # Assuming you have a 'login' URL pattern
     else:
         return render(request, 'users/register.html')
     
@@ -141,9 +135,9 @@ def resend_activation_link(request,id):
     
 
 
-#@login_required()
-def index(request):
-    return render(request, 'users/index.html') 
+# #@login_required()
+# def index(request):
+#     return render(request, 'users/index.html') 
    
 
 def forgot_password(request):

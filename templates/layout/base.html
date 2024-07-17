@@ -29,8 +29,11 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
-
-
+  <!-- <style>
+    body{
+      background-color: darkslategrey;
+    }
+  </style> -->
 </head>
 
 <body>
@@ -220,7 +223,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="{% url 'profile' %}">
+              <a class="dropdown-item d-flex align-items-center" href="#">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -280,13 +283,21 @@
 
 
       <!-- <li class="nav-heading">Pages</li> -->
-
+       {% if user.is_staff %}
+       <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'view_applications' %}">
+          <i class="bi bi-person"></i>
+          <span>Applications</span>
+        </a>
+      </li>
+       {% else %}
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'profile' %}">
+        <a class="nav-link collapsed" href="#">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->
+      {% endif %}
       <li class="nav-item active">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Help us know you better</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -335,12 +346,21 @@
           <span>Discover Jobs</span>
         </a>
       </li> -->
+      {% if user.is_staff %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-circle"></i>
+          <span>Applications</span>
+        </a>
+      </li>
+      {% else %}
       <li class="nav-item">
         <a class="nav-link collapsed" href="#">
           <i class="bi bi-envelope"></i>
           <span>Contact</span>
         </a>
       </li><!-- End Contact Page Nav -->
+      {% endif %}
 
       {% if user.is_authenticated %}
       <li class="nav-item">

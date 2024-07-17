@@ -1,14 +1,15 @@
 from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .models import WorkExperience, Education,Jobs,Documents, Profile
+from .models import WorkExperience, Education,Jobs,Documents,Applications
 from django.contrib.auth.decorators import login_required
 from django.utils.dateparse import parse_date
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 @login_required(login_url='users-login')
 def personal(request):
-    #return redirect('personal-details')
     return render(request, 'modules/personaldetails.html')
 
 
@@ -70,10 +71,10 @@ def work_experience(request):
 @login_required(login_url='users-login')
 def education(request):
     if request.method == 'POST':
-        education    = request.POST.get('education')  
-        course       = request.POST.get('course')  
-        institution  = request.POST.get('institution')  
-        grad_year    = request.POST.get('grad_year')  
+        education = request.POST.get('education')  
+        course = request.POST.get('course')  
+        institution = request.POST.get('institution')  
+        grad_year = request.POST.get('grad_year')  
         addn_courses = request.POST.get('add_courses')  
 
         p_grad_year  = parse_date(grad_year)
@@ -81,11 +82,11 @@ def education(request):
         try:    
             Education.objects.create(
                 user = request.user,
-                education    =   education, 
-                course       =   course,
-                institution  =   institution,  
-                grad_year  =     p_grad_year, 
-                addn_courses =   addn_courses 
+                education = education, 
+                course = course,
+                institution = institution,  
+                grad_year = p_grad_year, 
+                addn_courses = addn_courses 
             )
             messages.success(request, 'Education details saved successfully!!')
             return redirect('work')
@@ -103,16 +104,16 @@ def profile_user(request):
 @login_required(login_url='users-login')
 def add_Job(request):
     if request.method == 'POST':
-        title              = request.POST.get('title')
-        responsibilities   = request.POST.get('responsibilities')            
-        requirements       = request.POST.get('requirements')   
+        title = request.POST.get('title')
+        responsibilities = request.POST.get('responsibilities')            
+        requirements = request.POST.get('requirements')   
 
         try:    
             Jobs.objects.create(
                 user = request.user,
-                title             = title,
-                responsibilities  = responsibilities,
-                requirements      = requirements,
+                title = title,
+                responsibilities = responsibilities,
+                requirements = requirements,
             )
             messages.success(request, 'Job posted successfully') 
             return redirect('add_job')
@@ -127,20 +128,29 @@ def jobs(request):
     jobs = Jobs.objects.all().order_by('-timestamp')
     return render(request, 'modules/jobs.html', {'jobs':jobs})
 
-"""CRUD OPERATION START HERE"""
 
-def job_view(request, job_id):
+def job_details(request, job_id):
     job = get_object_or_404(Jobs, pk=job_id)
+    user_applied = Applications.objects.filter(user=request.user, job=job).exists()
+
+    if request.method == 'POST':
+        if user_applied:
+            messages.warning (request, 'You have already applied for this job.')
+        else:
+            Applications.objects.create(user = request.user, job=job)
+            messages.success(request, 'Your application has been sent.')
+            user_applied = True
+        return redirect('jobs')
     job.responsibilities_list = [r.strip() for r in job.responsibilities.split('•') if r.strip()]
-    return render(request, 'staff/job_view.html', {'job': job})
+    return render(request, 'staff/job_details.html', {'job': job})
 
 def update_job(request, job_id):
     job = get_object_or_404(Jobs, pk = job_id)
     if request.method == 'POST':
         if request.user == job.user or request.user.is_staff:
-            job.title            = request.POST.get('title') 
+            job.title = request.POST.get('title') 
             job.responsibilities = request.POST.get('responsibilities')
-            job.requirements     = request.POST.get('requirements')
+            job.requirements = request.POST.get('requirements')
             job.save() 
             messages.success(request, 'Job update success!!')
             return redirect('jobs')
@@ -158,49 +168,33 @@ def delete_job(request,job_id):
     #     messages.error(request, 'Not authorised')
     return render(request, 'staff/delete_job.html',{'job':job})
 
+# def jobs(request):
+#     jobs = Jobs.objects.all().order_by('-timestamp')
+#     return render(request, 'modules/jobs.html', {'jobs':jobs})
+
+def view_applications(request):
+    application_id = request.POST.get('application_id')
+    user = request.user
+    if application_id:
+        status = request.POST.get('status')
+        application = get_object_or_404(Applications, id=application_id)
+        application.status=status
+        application.save()
+
+        try:
+            recipient_list = [application.user.email]
+            email_from = settings.EMAIL_HOST
+            subject = 'Job Application Status'
+            message = f'Dear, {user.name} this is to inform you that your application for {application.job.title} has been {application.status}'
+            send_mail(subject, message, email_from, recipient_list, fail_silently=False)
+        except Exception as e:
+            pass
+    applications = Applications.objects.all().order_by('-applied_date')
+    return render(request, 'staff/view_applications.html',{'applications':applications})
 
 
-"""END OF CRUD OPERATIONS"""
 def personal_details(request):
     return render(request, 'modules/personaldetails.html')
 
-
-@login_required(login_url='users-login')
-def profile(request):
-    if request.method == 'POST':
-        image     = request.FILES.get('image')
-        about     = request.POST.get('about')
-        job       = request.POST.get('job') 
-        phone     = request.POST.get('phone')  
-        twitter   = request.POST.get('twitter')  
-        facebook  = request.POST.get('facebook')  
-        instagram = request.POST.get('instagram')     
-        linked_in = request.POST.get('linked_in')   
-        github    = request.POST.get('github')    
-
-        user_pofile = request.user.profile
-
-        if not user_pofile:
-            try:
-                Profile.objects.create(
-                    user       = request.user,
-                    image      = image,
-                    about      = about,
-                    job        = job ,
-                    phone      = phone,
-                    twitter    = twitter,
-                    facebook   = facebook,
-                    instagram  = instagram,
-                    linked_in  = linked_in,
-                    github     = github,
-
-                )
-                messages.success(request, 'Deatils updated')
-            except Exception as e:
-                print(e)
-                messages.error(request, 'Profile not updated. {e}')
-        else:
-            messages.error(request, 'User profile exists!')
-        return redirect('profile')
-
-    return render(request, 'modules/user_profile.html')
+def job_applications(request):
+    return render (request, 'staff/applications.html')

@@ -6,26 +6,6 @@ from django.core.validators import RegexValidator
 User = get_user_model()
 
 # Create your models here.
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    about = models.TextField()
-    job = models.CharField(max_length=150)
-    #how do i create a single field called socials here that can then be extended by fields below?
-    twitter = models.URLField(max_length=200, blank=True)
-    facebook=models.URLField(max_length=200,blank=True)
-    instagram = models.URLField(max_length=200, blank=True)
-    linked_in = models.URLField(max_length=200, blank=True)
-    github = models.URLField(max_length=200, blank=True)
-    phone = models.CharField(max_length=10,blank=True)
-
-    def __str__(self):
-            return f'{self.user.name}-- Profile'
-    class Meta:
-          verbose_name_plural = 'User Profile'
-
-
-
 class WorkExperience(models.Model):
       user = models.ForeignKey(User, on_delete=models.CASCADE)
       company = models.CharField(max_length=254)
@@ -41,12 +21,12 @@ class WorkExperience(models.Model):
             verbose_name_plural = 'Work Experience'
 
 class Education(models.Model):
-      user              = models.ForeignKey(User, on_delete=models.CASCADE)
-      education         = models.CharField(max_length=255)
-      course            = models.CharField(max_length=255)
-      institution       = models.CharField(max_length=255)
-      grad_year         = models.DateField(blank=True, null=True)
-      addn_courses      = models.CharField(max_length=255, blank=True, null=True)
+      user = models.ForeignKey(User, on_delete=models.CASCADE)
+      education  = models.CharField(max_length=255)
+      course  = models.CharField(max_length=255)
+      institution  = models.CharField(max_length=255)
+      grad_year = models.DateField(blank=True, null=True)
+      addn_courses = models.CharField(max_length=255, blank=True, null=True)
 
       def __str__(self) :
             return f'{self.course}--{self.user.name}'
@@ -57,9 +37,9 @@ class Education(models.Model):
 
 class Jobs(models.Model):
       user = models.ForeignKey(User, on_delete=models.CASCADE)
-      title             = models.CharField(max_length=255)
-      responsibilities  = models.TextField()
-      requirements      = models.TextField()
+      title = models.CharField(max_length=255)
+      responsibilities = models.TextField()
+      requirements = models.TextField()
       timestamp = models.DateTimeField(default=datetime.now)
 
       def __str__(self):
@@ -78,4 +58,16 @@ class Documents(models.Model):
       
       class Meta:
             verbose_name_plural = 'Documents'
+
+
+class Applications(models.Model):
+      user = models.ForeignKey(User, on_delete=models.CASCADE)
+      job  = models.ForeignKey(Jobs,on_delete=models.CASCADE)
+      status = models.CharField(max_length=254, blank=True, null=True)
+      applied_date = models.DateTimeField(auto_now_add=True)
+
+      def __str__(self):
+            return f'{self.user.name} - {self.job.title}'
       
+      class Meta:
+            verbose_name_plural = 'Applications'
