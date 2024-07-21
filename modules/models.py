@@ -6,6 +6,10 @@ from django.core.validators import RegexValidator
 User = get_user_model()
 
 # Create your models here.
+
+class PersonalDetails(models.Model):
+      user = models.ForeignKey(User, on_delete=models.CASCADE)
+      
 class WorkExperience(models.Model):
       user = models.ForeignKey(User, on_delete=models.CASCADE)
       company = models.CharField(max_length=254)

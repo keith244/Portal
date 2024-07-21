@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.dateparse import parse_date
 from django.core.mail import send_mail
 from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 # Create your views here.
 @login_required(login_url='users-login')
@@ -121,6 +123,7 @@ def add_Job(request):
             messages.error(request,'Unable to add new job. Error :{str(e)}.')
             return redirect('add_job')
     return render(request, 'staff/addjob.html')
+    
 #to handle job being posted to the html template
 
 # @login_required(login_url='users-login')
@@ -164,14 +167,11 @@ def delete_job(request,job_id):
         job.delete()
         messages.success(request, 'Job deleted successfully')
         return redirect('jobs')
-    # else:
-    #     messages.error(request, 'Not authorised')
+    
     return render(request, 'staff/delete_job.html',{'job':job})
 
-# def jobs(request):
-#     jobs = Jobs.objects.all().order_by('-timestamp')
-#     return render(request, 'modules/jobs.html', {'jobs':jobs})
 
+@login_required(login_url='users-login')
 def view_applications(request):
     application_id = request.POST.get('application_id')
     user = request.user
@@ -182,16 +182,27 @@ def view_applications(request):
         application.save()
 
         try:
+            context = {
+                'user_name': application.user.name, 
+                'job_title': application.job.title,
+                'application_status': application.status
+            }
+            html_message = render_to_string('staff/aplication_email.html', context)
+            plain_message = strip_tags(html_message)
             recipient_list = [application.user.email]
-            email_from = settings.EMAIL_HOST
+            email_from = settings.EMAIL_HOST_USER
             subject = 'Job Application Status'
-            message = f'Dear, {user.name} this is to inform you that your application for {application.job.title} has been {application.status}'
-            send_mail(subject, message, email_from, recipient_list, fail_silently=False)
+            # message = f'Dear, {user.name} this is to inform you that your application for {application.job.title} has been {application.status}'
+            send_mail(subject, plain_message, email_from, recipient_list,html_message=html_message, fail_silently=False)
+            messages.success(request, f'The email has been successfully sent to {application.user.name}.')
         except Exception as e:
-            pass
+            messages.error(request, f'Failed to send email to {application.user.name} because of: {str(e)}')
+            print(f'Failed to send email: {str(e)}')
     applications = Applications.objects.all().order_by('-applied_date')
     return render(request, 'staff/view_applications.html',{'applications':applications})
 
+def appl_table(request):
+    return render(request, 'modules/appl_table.html')
 
 def personal_details(request):
     return render(request, 'modules/personaldetails.html')
