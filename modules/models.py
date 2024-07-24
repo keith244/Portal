@@ -6,7 +6,8 @@ from django.core.validators import RegexValidator
 User = get_user_model()
 
 # Create your models here.
-
+class Profile(models.Model):
+      pass
 class PersonalDetails(models.Model):
       user = models.ForeignKey(User, on_delete=models.CASCADE)
       

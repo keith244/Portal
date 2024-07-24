@@ -105,25 +105,27 @@ def profile_user(request):
 #Handles job being created and posted to database 
 @login_required(login_url='users-login')
 def add_Job(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        responsibilities = request.POST.get('responsibilities')            
-        requirements = request.POST.get('requirements')   
+    user = request.user
+    if user.is_staff:
+        if request.method == 'POST':
+            title = request.POST.get('title')
+            responsibilities = request.POST.get('responsibilities')            
+            requirements = request.POST.get('requirements')   
 
-        try:    
-            Jobs.objects.create(
-                user = request.user,
-                title = title,
-                responsibilities = responsibilities,
-                requirements = requirements,
-            )
-            messages.success(request, 'Job posted successfully') 
-            return redirect('add_job')
-        except Exception as e:
-            messages.error(request,'Unable to add new job. Error :{str(e)}.')
-            return redirect('add_job')
-    return render(request, 'staff/addjob.html')
-    
+            try:    
+                Jobs.objects.create(
+                    user = request.user,
+                    title = title,
+                    responsibilities = responsibilities,
+                    requirements = requirements,
+                )
+                messages.success(request, 'Job posted successfully') 
+                return redirect('add_job')
+            except Exception as e:
+                messages.error(request,'Unable to add new job. Error :{str(e)}.')
+                return redirect('add_job')
+        return render(request, 'staff/addjob.html')
+    return redirect('jobs')
 #to handle job being posted to the html template
 
 # @login_required(login_url='users-login')
@@ -201,8 +203,8 @@ def view_applications(request):
     applications = Applications.objects.all().order_by('-applied_date')
     return render(request, 'staff/view_applications.html',{'applications':applications})
 
-def appl_table(request):
-    return render(request, 'modules/appl_table.html')
+def jobs_2(request):
+    return render(request, 'modules/jobs_2.html')
 
 def personal_details(request):
     return render(request, 'modules/personaldetails.html')

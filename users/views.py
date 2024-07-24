@@ -35,7 +35,7 @@ def iregister(request):
         
 
         # Create user with proper username validation (avoid spaces or special characters)
-        # username = name.strip()  # Remove leading/trailing whitespaces
+        name = name.strip()  # Remove leading/trailing whitespaces
         # if not username or username.isalnum():  # Check for alphanumeric characters only
         #     messages.error(request, "Invalid username. Usernames cannot be empty or contain special characters.")
         #     return render(request, 'users/register.html')
