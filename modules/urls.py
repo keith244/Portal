@@ -7,6 +7,7 @@ urlpatterns=[
     path('work/', views.work_experience, name='work'),
     path('personal/', views.personal_details, name="personal-details"),
     path('jobs/',views.jobs,name='jobs' ),
+    path('faqs/',views.faqs, name='faqs'),
     path('staff/addjob', views.add_Job, name="add_job"), #CREATE
     path('staff/<int:job_id>/', views.job_details, name='job_details' ), #READ
     path('staff/<int:job_id>/update', views.update_job, name='update_job'), #UPDATE

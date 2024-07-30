@@ -16,26 +16,31 @@ def personal(request):
 
 
 @login_required(login_url='users-login')
-def add_documents(request):
+def education(request):
     if request.method == 'POST':
-        names = request.POST.getlist('name')
-        files = request.FILES.getlist('file')
-        user = request.user
+        education = request.POST.get('education')  
+        course = request.POST.get('course')  
+        institution = request.POST.get('institution')  
+        grad_year = request.POST.get('grad_year')  
+        addn_courses = request.POST.get('add_courses')  
 
-        try:
-            for i in range(len(names)):
-                Documents.objects.create(
-                    user=user,
-                    title=names[i],
-                    file=files[i]
-                )
-            messages.success(request, 'Documents added successfully.')
-            return redirect('education')
+        p_grad_year  = parse_date(grad_year)
+
+        try:    
+            Education.objects.create(
+                user = request.user,
+                education = education, 
+                course = course,
+                institution = institution,  
+                grad_year = p_grad_year, 
+                addn_courses = addn_courses 
+            )
+            messages.success(request, 'Education details saved successfully!!')
+            return redirect('work')
         except Exception as e:
-            messages.error(request,'Unable to save documents. Error : {str(e)}.')
-            return redirect('documents')
-    return render(request, 'modules/add_documents.html')
-
+            messages.error(request,'Unable to save education details. Error : {str(e)}.')
+            return render(request, 'modules/education.html')
+    return render(request,'modules/education.html')
 
 #@login_required(login_url='users-login')
 def work_experience(request):
@@ -63,7 +68,7 @@ def work_experience(request):
                 responsibility=responsibility
             )
             messages.success(request, 'Work experince saved successfully.')
-            return redirect('work')
+            return redirect('documents')
         except Exception as e:
             messages.error(request,'Unable to save work details. Error : {str(e)}.')
             return redirect('work')
@@ -71,31 +76,25 @@ def work_experience(request):
 
 
 @login_required(login_url='users-login')
-def education(request):
+def add_documents(request):
     if request.method == 'POST':
-        education = request.POST.get('education')  
-        course = request.POST.get('course')  
-        institution = request.POST.get('institution')  
-        grad_year = request.POST.get('grad_year')  
-        addn_courses = request.POST.get('add_courses')  
+        names = request.POST.getlist('name')
+        files = request.FILES.getlist('file')
+        user = request.user
 
-        p_grad_year  = parse_date(grad_year)
-
-        try:    
-            Education.objects.create(
-                user = request.user,
-                education = education, 
-                course = course,
-                institution = institution,  
-                grad_year = p_grad_year, 
-                addn_courses = addn_courses 
-            )
-            messages.success(request, 'Education details saved successfully!!')
-            return redirect('work')
+        try:
+            for i in range(len(names)):
+                Documents.objects.create(
+                    user=user,
+                    title=names[i],
+                    file=files[i]
+                )
+            messages.success(request, 'Documents added successfully.Check jobs below.')
+            return redirect('jobs')
         except Exception as e:
-            messages.error(request,'Unable to save education details. Error : {str(e)}.')
-            return redirect('education')
-    return render(request,'modules/education.html')
+            messages.error(request,'Unable to save documents. Error : {str(e)}.')
+            return redirect('documents')
+    return render(request, 'modules/add_documents.html')
 
 
 def profile_user(request):
@@ -203,6 +202,8 @@ def view_applications(request):
     applications = Applications.objects.all().order_by('-applied_date')
     return render(request, 'staff/view_applications.html',{'applications':applications})
 
+def faqs(request):
+    return render(request, 'modules/FAQS.html')
 def jobs_2(request):
     return render(request, 'modules/jobs_2.html')
 
