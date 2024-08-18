@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import WorkExperience, Education,Jobs,Documents,Applications
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.dateparse import parse_date
 from django.core.mail import send_mail
 from django.conf import settings
@@ -10,6 +10,14 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 # Create your views here.
+def is_profile_complete(user):
+    has_documents = Documents.objects.filter(user=user).exists()
+    has_work_expereience = WorkExperience.objects.filter(user=user).exists()
+    has_education = Education.objects.filter(user=user).exists()
+
+    return has_documents and has_education and has_work_expereience
+
+
 @login_required(login_url='users-login')
 def personal(request):
     return render(request, 'modules/personaldetails.html')
@@ -42,7 +50,7 @@ def education(request):
             return render(request, 'modules/education.html')
     return render(request,'modules/education.html')
 
-#@login_required(login_url='users-login')
+@login_required(login_url='users-login')
 def work_experience(request):
     if request.method == 'POST':
         company = request.POST.get('company') 
@@ -132,12 +140,22 @@ def jobs(request):
     jobs = Jobs.objects.all().order_by('-timestamp')
     return render(request, 'modules/jobs.html', {'jobs':jobs})
 
-
+@login_required
+# @user_passes_test(is_profile_complete, login_url='education',redirect_field_name=None)
 def job_details(request, job_id):
     job = get_object_or_404(Jobs, pk=job_id)
     user_applied = Applications.objects.filter(user=request.user, job=job).exists()
 
+    user_documents = Documents.objects.filter(user=request.user).exists()
+    user_work_experience = WorkExperience.objects.filter(user=request.user).exists()
+    user_education = Education.objects.filter(user=request.user).exists()
+
     if request.method == 'POST':
+
+        if not user_documents or not user_education or not user_work_experience:
+            messages.error(request, 'You must upload all your details before you can apply for the job.')
+            return redirect('education')
+
         if user_applied:
             messages.warning (request, 'You have already applied for this job.')
         else:
