@@ -1,0 +1,53 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Jobs</h1>
+    
+    <div class="table-responsive">
+        
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Serial No.</th>
+                    <th scope="col">Job Title</th>
+                    <th scope="col">Date Posted</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applications %}
+                <tr>
+                    <td>{{ application.user.name }}</td>
+                    <td>{{ application.user.email }}</td>
+                    <td><a href="{% url 'job_details' application.job.id %}" class="text-decoration-none">{{ application.job.title }}</a></td>
+                    <td>{{ application.applied_date|date:"F d, Y H:i" }}</td>
+                    <td>
+                        <form method="post" action="" class="d-flex flex-column align-items-stretch">
+                            {% csrf_token %}
+                            <input type="hidden" name="application_id" value="{{application.id}}" />
+                            <div class="input-group input-group-sm mb-2">
+                                <select name="status" class="form-select form-select-sm" aria-label="Select application status" required {% if application.status %} disabled {% endif %}>
+                                    {% if application.status %}
+                                    <option value="{{application.status}}" selected disabled>{{application.status}}</option>
+                                    {% else %}
+                                    <option value="" selected disabled>Select</option>
+                                    {% endif %}
+                                    <option value="Approved">Approve</option>
+                                    <option value="Rejected">Reject</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No applications found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

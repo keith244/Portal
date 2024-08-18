@@ -22,5 +22,5 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('users.urls')),
-    path('',include('modules.urls')),
+    path('modules/',include('modules.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

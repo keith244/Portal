@@ -20,8 +20,15 @@
       <div class="row">
     </div>
     </div>
+    {% if user.name != None and user != is_staff %}
     <h4>Welcome, {{user.name}}.</h4>
+    {% else %}
+    <h4>Welcome, Admin</h4>
+    {% endif %}
     <h2>Ready for the next step in your career?<br>Browse through our latest job postings below.</h2>
+    {% if not user.is_authenticated %}
+    <p>Please <a href="{% url 'users-login' %}"><strong>login</strong></a> to access this list</p>
+    {% else %}
     {% for job in jobs %}
     <div class="col-lg-6">
   <div class="info-box card">
@@ -37,13 +44,14 @@
         <a href="{% url 'update_job' job.id %}" class="btn btn-info">Update job details</a>
         <a href="{% url 'delete_job' job.id %}" class="btn btn-outline-danger">Delete job</a>
         {% else %}
-        <a href="{% url 'job_view' job.id %}" class="btn btn-success" type="submit">Discover</a>
+        <a href="{% url 'job_details' job.id %}" class="btn btn-success" type="submit">Discover</a>
         {%endif%}
       </div>
+    </div>
   </div>
+  {% endfor %}
 </div>
-{% endfor %}
-        </div>
+{% endif %}
       </div>
     </section>
 <!-- scripts -->

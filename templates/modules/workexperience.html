@@ -1,7 +1,11 @@
 {% extends 'layout/base.html' %}
 {% load static %}
 {% block content %}
-  <form method="post" id="work" action="{% url 'work' %}">
+<div class="text-center">
+<h4>Step 2 of 3</h4>
+<h3>Personal Details</h3>
+</div>
+  <form method="post" id="workExperienceForm" action="{% url 'work' %}">
     {% csrf_token %}
   <div class="container">
     <h2 class="mt-5 mb-4">Work Experience</h2>
@@ -32,7 +36,45 @@
           <textarea class="form-control" name="responsibility" rows="4" required></textarea>
         </div>
       </div>
+      <button type="button" class="btn btn-primary mb-3 mt-1 me-2" id="addExperience">Add Experience</button>
       <button type="submit" class="btn btn-success mb-3 mt-1">Submit</button>
     </form>
+    <script>
+      document.getElementById('addExperience').addEventListener('click', function() {
+          var newExperience = `
+          <div class="experience mt-7">
+          <div class="mb-3">
+          <label for="companyName" class="form-label">Company Name</label>
+          <input type="text" class="form-control" name="company" required>
+        </div>
+      
+        <div class="mb-3">
+          <label for="position" class="form-label">Position</label>
+          <input type="text" class="form-control" name="position" required>
+        </div>
+      
+        <div class="mb-3">
+          <label for="startDate" class="form-label">Start Date</label>
+          <input type="date" class="form-control" name="start_date" required>
+        </div>
+      
+        <div class="mb-3">
+          <label for="endDate" class="form-label">End Date</label>
+          <input type="date" class="form-control" name="end_date" required>
+        </div>
+      
+        <div class="mb-5">
+          <label for="responsibilities" class="form-label">Responsibilities</label>
+          <textarea class="form-control" name="" rows="4" required></textarea>
+        </div>
+          </div>`;
+      
+          var div = document.createElement('div');
+          div.innerHTML = newExperience;
+          var experienceFields = document.getElementById('experienceFields');
+          experienceFields.appendChild(div.firstElementChild);
+      });
+      
+    </script>
   </div>
 {% endblock %}

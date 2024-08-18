@@ -34,8 +34,8 @@ def iregister(request):
         #check is account is created
         
 
-        # # Create user with proper username validation (avoid spaces or special characters)
-        # username = name.strip()  # Remove leading/trailing whitespaces
+        # Create user with proper username validation (avoid spaces or special characters)
+        name = name.strip()  # Remove leading/trailing whitespaces
         # if not username or username.isalnum():  # Check for alphanumeric characters only
         #     messages.error(request, "Invalid username. Usernames cannot be empty or contain special characters.")
         #     return render(request, 'users/register.html')
@@ -45,31 +45,30 @@ def iregister(request):
         user.is_active = True
         user.save()
         return redirect('users-login')
-
-        # Authenticate and log in the newly created user (optional)
-        # user = authenticate(username=username, password=pass1)
-        # if user is not None:
-        #     login(request, user)
-        #     return redirect('users-login')  # Assuming you have a 'login' URL pattern
     else:
         return render(request, 'users/register.html')
     
 def ilogin(request):
-    if request.method =='POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        try:
-            get_object_or_404(User, email=email)
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request,user)
-                messages.success( request, f'Welcome {email}!!')
-                return redirect('users-index')
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if not email or not password:
+            messages.error(request, 'Please provide both email and password.')
+            return render(request, 'users/login.html', {'email': email})
+
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, f'Welcome {email}!')
+            return redirect('jobs')
+        else:
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'Invalid login credentials.')
             else:
-                 messages.error(request, 'Invalid login credentials')
-        except Http404:
-            messages.error(request, f'Account with email {email} does not exist. Create account to continue')
-        return render(request, 'users/login.html', {'email':email})
+                messages.error(request, f'Account with email {email} does not exist. Create account to continue.')
+        
+        return render(request, 'users/login.html', {'email': email})
     else:      
         return render(request, 'users/login.html')
     
@@ -136,9 +135,9 @@ def resend_activation_link(request,id):
     
 
 
-#@login_required()
-def index(request):
-    return render(request, 'users/index.html') 
+# #@login_required()
+# def index(request):
+#     return render(request, 'users/index.html') 
    
 
 def forgot_password(request):
@@ -153,9 +152,9 @@ def forgot_password(request):
             message = f'Hi {user_name}, click the link below to change your password,\n\n{activation_link}'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [email]
+            print('fooooo')
             send_mail(subject, message, email_from, recipient_list, fail_silently=False)
             messages.success(request, 'Request received. Check your email for further instructions')
-            print('Email sent')
         except SMTPException:
             messages.error(request, 'Something went wrong. Please try again later.')
         except Http404:
@@ -173,11 +172,11 @@ def reset_password(request, id):
         confirm_password = request.POST.get('confirm_password')
         if new_password == confirm_password:
             try:
-                user = get_object_or_404(User, id)
+                user = get_object_or_404(User, id=id)
                 user.set_password(new_password)
                 user.save()
                 messages.success(request, 'Password was reset successfully')
-            except Exception:
+            except Exception as e:
                 messages.error(request, 'Could not complete your request. Please try again later.')
             return redirect('users-login')
         else:
@@ -221,5 +220,6 @@ def reset_password_confirm(request):
             return render(request, 'users/reset_password.html')
                 
     return render(request, 'users/reset_password_confirm.html')
+
 
 
